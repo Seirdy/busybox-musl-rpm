@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.00.rc1
-Release: 5
+Release: 6
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
@@ -73,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Thu Jan 13 2005 Jeremy Katz <katzj@redhat.com> - 1.00.rc1-6
+- enable ash as the shell in busybox-anaconda
+
 * Sat Oct  2 2004 Bill Nottingham <notting@redhat.com> - 1.00.rc1-5
 - fix segfault in SELinux patch (#134404, #134406)
 
