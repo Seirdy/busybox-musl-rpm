@@ -3,8 +3,8 @@
 %endif
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.00.pre5
-Release: 3
+Version: 1.00.pre8
+Release: 5
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
@@ -39,6 +39,7 @@ cp sysdeps/linux/defconfig .config
 %patch2 -b .selinux -p1
 %endif
 %patch -b .static -p1
+#patch1 -b .anaconda -p1
 
 %build
 make defconfig
@@ -76,6 +77,22 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Tue May 11 2004 Karsten Hopp <karsten@redhat.de> 1.00.pre8-4 
+- add mknod to busybox-anaconda
+
+* Wed Apr 21 2004 Karsten Hopp <karsten@redhat.de> 1.00.pre8-3 
+- fix LS_COLOR in anaconda patch
+
+* Tue Mar 23 2004 Jeremy Katz <katzj@redhat.com> 1.00.pre8-2
+- add awk to busybox-anaconda
+
+* Sat Mar 20 2004 Dan Walsh <dwalsh@redhat.com> 1.00-pre8.1
+- Update with latest patch. 
+- Turn off LS_COLOR in static patch
+
 * Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
