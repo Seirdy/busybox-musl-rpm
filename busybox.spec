@@ -1,10 +1,7 @@
-%if %{?WITH_SELINUX:0}%{!?WITH_SELINUX:1}
-%define WITH_SELINUX 1
-%endif
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.00.rc1
-Release: 4
+Release: 5
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
@@ -13,9 +10,7 @@ Patch1: busybox-anaconda.patch
 Patch2: busybox-selinux.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
-%if %{WITH_SELINUX}
 BuildRequires: libselinux-devel
-%endif
 
 %package anaconda
 Group: System Environment/Shells
@@ -38,9 +33,7 @@ normal use.
 %setup -q
 cp sysdeps/linux/defconfig .config
 #SELINUX Patch
-%if %{WITH_SELINUX}
 %patch2 -b .selinux -p1
-%endif
 %patch -b .static -p1
 #%patch1 -b .anaconda -p1
 
@@ -80,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Sat Oct  2 2004 Bill Nottingham <notting@redhat.com> - 1.00.rc1-5
+- fix segfault in SELinux patch (#134404, #134406)
+
 * Fri Sep 17 2004 Phil Knirsch <pknirsch@redhat.com> - 1.00.rc1-4
 - Fixed double free in freecon() call (#132809)
 
