@@ -1,31 +1,31 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 0.51.062801
-Release: 2
+Release: 3
 Copyright: GPL
 Group: System Environment/Shells
 Source: ftp://oss.lineo.com/busybox/busybox.tar.gz
 Patch: busybox-static.patch
 Patch1: busybox-anaconda.patch
-URL: gttp://busybox.lineo.com/
-Obsoletes: sash
+URL: http://busybox.lineo.com/
 BuildRoot: %{_tmppath}/%{name}-root
 
 %package anaconda
 Group: System Environment/Shells
-Summary: Version of busybox configured for use with anaconda, the Red Hat install program
+Summary: Version of busybox configured for use with anaconda
 
-%description
-Busybox is a single binary which includes versions of a large number of 
-system commands, including a shell.  This package can be very usefull for
-recovering from certain types of system failures, particularly those
-involving broken shared libraries.
+%description 
+Busybox is a single binary which includes versions of a large number
+of system commands, including a shell.  This package can be very
+useful for recovering from certain types of system failures,
+particularly those involving broken shared libraries.
 
 %description anaconda
-Busybox is a single binary which includes versions of a large number of 
-system commands, including a shell.  The version contained in this package
-is designed for use with the Red Hat installation program, anaconda. The
-busybox package provides a binary better suited to normal use.
+Busybox is a single binary which includes versions of a large number
+of system commands, including a shell.  The version contained in this
+package is designed for use with the Red Hat installation program,
+anaconda. The busybox package provides a binary better suited to
+normal use.
 
 %prep
 %setup -n busybox -q
@@ -65,6 +65,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Mon Jul  9 2001 Tim Powers <timp@redhat.com>
+- don't obsolete sash
+- fix URL and spelling in desc. to satisfy rpmlint
+
 * Thu Jul 05 2001 Florian La Roche <Florian.LaRoche@redhat.de>
 - add missing defattr for anaconda subpackage
 
