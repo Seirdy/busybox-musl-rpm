@@ -1,14 +1,16 @@
+%if %{?WITH_SELINUX:0}%{!?WITH_SELINUX:1}
+%define WITH_SELINUX 1
+%endif
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 0.60.5
-Release: 6
+Version: 1.00.pre5
+Release: 2
 License: GPL
 Group: System Environment/Shells
-Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.gz
+Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Patch: busybox-static.patch
 Patch1: busybox-anaconda.patch
-Patch2: busybox-bdflush.patch
-Patch3: busybox-free.patch
+Patch2: busybox-selinux.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 
@@ -31,11 +33,15 @@ normal use.
 
 %prep
 %setup -q
+cp sysdeps/linux/defconfig .config
+#SELINUX Patch
+%if %{WITH_SELINUX}
+%patch2 -b .selinux -p1
+%endif
 %patch -b .static -p1
-%patch2 -p1 -b .bdflush
-%patch3 -p1 -b .free
 
 %build
+make defconfig
 make
 cp busybox busybox-static
 make clean
@@ -46,7 +52,8 @@ find . -name "*.static" | while read n; do
 done
 
 patch -b --suffix .anaconda -p1 < %{PATCH1}
-make
+make DOLFS=y defconfig
+make 
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -69,6 +76,36 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Tue Jan 27 2004 Dan Walsh <dwalsh@redhat.com> 1.00-pre5.2
+- Fix is_selinux_enabled calls
+
+* Mon Dec 29 2003 Dan Walsh <dwalsh@redhat.com> 1.00-pre5.1
+-Latest update
+
+* Wed Nov 26 2003 Dan Walsh <dwalsh@redhat.com> 1.00-pre3.2
+- Add insmod
+
+* Mon Sep 15 2003 Dan Walsh <dwalsh@redhat.com> 1.00-pre3.1
+- Upgrade to pre3
+
+* Thu Sep 11 2003 Dan Walsh <dwalsh@redhat.com> 1.00.2
+- Upgrade selinux support
+
+* Wed Jul 23 2003 Dan Walsh <dwalsh@redhat.com> 1.00.1
+- Upgrade to 1.00 package
+
+* Wed Jul 16 2003 Elliot Lee <sopwith@redhat.com> 0.60.5-10
+- Rebuild
+
+* Mon Jul 14 2003 Jeremy Katz <katzj@redhat.com> 0.60.5-9
+- rebuild
+
+* Mon Jul 14 2003 Jeremy Katz <katzj@redhat.com> 0.60.5-8
+- add dmesg to busybox-anaconda
+
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Wed Jan 22 2003 Tim Powers <timp@redhat.com>
 - rebuilt
 
