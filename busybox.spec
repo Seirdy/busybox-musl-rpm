@@ -3,8 +3,8 @@
 %endif
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.00.pre8
-Release: 5
+Version: 1.00.rc1
+Release: 1
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
@@ -13,6 +13,9 @@ Patch1: busybox-anaconda.patch
 Patch2: busybox-selinux.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
+%if %{WITH_SELINUX}
+BuildRequires: libselinux-devel
+%endif
 
 %package anaconda
 Group: System Environment/Shells
@@ -39,7 +42,7 @@ cp sysdeps/linux/defconfig .config
 %patch2 -b .selinux -p1
 %endif
 %patch -b .static -p1
-#patch1 -b .anaconda -p1
+#%patch1 -b .anaconda -p1
 
 %build
 make defconfig
@@ -77,6 +80,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Fri Jun 25 2004 Dan Walsh <dwalsh@redhat.com> 1.00-pre10.1
+- Add BuildRequires libselinux-devel
+- Update to latest from upstream
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
