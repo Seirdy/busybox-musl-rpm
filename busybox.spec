@@ -1,8 +1,8 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 0.60.2
-Release: 3
-Copyright: GPL
+Release: 4
+License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.gz
 Patch: busybox-static.patch
@@ -65,6 +65,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Tue Apr  2 2002 Jeremy Katz <katzj@redhat.com>
+- fix static busybox (#60701)
+
 * Thu Feb 28 2002 Jeremy Katz <katzj@redhat.com>
 - don't include mknod in busybox.anaconda so we get collage mknod
 
