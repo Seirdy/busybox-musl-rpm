@@ -1,13 +1,14 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 0.60.2
-Release: 7
+Version: 0.60.5
+Release: 6
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.gz
 Patch: busybox-static.patch
 Patch1: busybox-anaconda.patch
-Patch2: busybox-s390.patch
+Patch2: busybox-bdflush.patch
+Patch3: busybox-free.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 
@@ -31,7 +32,8 @@ normal use.
 %prep
 %setup -q
 %patch -b .static -p1
-%patch2 -p1
+%patch2 -p1 -b .bdflush
+%patch3 -p1 -b .free
 
 %build
 make
@@ -43,7 +45,7 @@ find . -name "*.static" | while read n; do
     mv $n $(echo $n | sed 's/\.static$//')
 done
 
-patch --suffix .anaconda -p1 < $RPM_SOURCE_DIR/busybox-anaconda.patch
+patch -b --suffix .anaconda -p1 < %{PATCH1}
 make
 
 %install
@@ -67,6 +69,27 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com>
+- rebuilt
+
+* Mon Jan 13 2003 Jeremy Katz <katzj@redhat.com> 0.60.5-5
+- lost nolock for anaconda mount when rediffing, it returns (#81764)
+
+* Mon Jan 6 2003 Dan Walsh <dwalsh@redhat.com> 0.60.5-4
+- Upstream developers wanted to eliminate the use of floats
+
+* Thu Jan 3 2003 Dan Walsh <dwalsh@redhat.com> 0.60.5-3
+- Fix free to work on large memory machines.
+
+* Sat Dec 28 2002 Jeremy Katz <katzj@redhat.com> 0.60.5-2
+- update Config.h for anaconda build to include more useful utils
+
+* Thu Dec 19 2002 Dan Walsh <dwalsh@redhat.com> 0.60.5-1
+- update latest release
+
+* Thu Dec 19 2002 Dan Walsh <dwalsh@redhat.com> 0.60.2-8
+- incorporate hammer changes
+
 * Fri Jun 21 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
