@@ -2,6 +2,7 @@ Summary: Statically linked binary providing simplified versions of system comman
 Name: busybox
 Version: 1.00
 Release: 1
+Epoch: 1
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
@@ -74,6 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Wed Jan 26 2005 Ivana Varekova <varekova@redhat.com> - 1.00-1
+- update to 1.00
 - rebuild
 
 * Thu Jan 13 2005 Jeremy Katz <katzj@redhat.com> - 1.00.rc1-6
