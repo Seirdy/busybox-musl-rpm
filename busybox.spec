@@ -4,7 +4,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.00.pre5
-Release: 2
+Release: 3
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Tue Jan 27 2004 Dan Walsh <dwalsh@redhat.com> 1.00-pre5.2
 - Fix is_selinux_enabled calls
 
