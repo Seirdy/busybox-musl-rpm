@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 0.60.2
-Release: 4a
+Release: 6
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.gz
@@ -67,6 +67,12 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Thu May 23 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Mon May 06 2002 Florian La Roche <Florian.LaRoche@redhat.de>
+- fix compilation on mainframe
+
 * Tue Apr  2 2002 Jeremy Katz <katzj@redhat.com>
 - fix static busybox (#60701)
 
