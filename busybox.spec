@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.00
-Release: 3
+Release: 4
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -74,6 +74,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Mon Mar  7 2005 Ivana Varekova <varekova@redhat.com> - 1.00-4
+- rebuilt
+
 * Wed Jan 26 2005 Ivana Varekova <varekova@redhat.com> - 1.00-3
 - update to 1.00 - fix bug #145681
 - rebuild
