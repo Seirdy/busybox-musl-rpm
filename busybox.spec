@@ -74,8 +74,8 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
-* Wed Jan 26 2005 Ivana Varekova <varekova@redhat.com> - 1.00-1
-- update to 1.00
+* Wed Jan 26 2005 Ivana Varekova <varekova@redhat.com> - 1.00-2
+- update to 1.00 - fix bug #145681
 - rebuild
 
 * Thu Jan 13 2005 Jeremy Katz <katzj@redhat.com> - 1.00.rc1-6
