@@ -1,13 +1,13 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 0.51.062801
+Version: 0.60.2
 Release: 3
 Copyright: GPL
 Group: System Environment/Shells
-Source: ftp://oss.lineo.com/busybox/busybox.tar.gz
+Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.gz
 Patch: busybox-static.patch
 Patch1: busybox-anaconda.patch
-URL: http://busybox.lineo.com/
+URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 
 %package anaconda
@@ -28,7 +28,7 @@ anaconda. The busybox package provides a binary better suited to
 normal use.
 
 %prep
-%setup -n busybox -q
+%setup -q
 %patch -b .static -p1
 
 %build
@@ -65,6 +65,20 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Thu Feb 28 2002 Jeremy Katz <katzj@redhat.com>
+- don't include mknod in busybox.anaconda so we get collage mknod
+
+* Fri Feb 22 2002 Jeremy Katz <katzj@redhat.com>
+- rebuild in new environment
+
+* Wed Jan 30 2002 Jeremy Katz <katzj@redhat.com>
+- update to 0.60.2
+- include more pieces for the anaconda version so that collage can go away
+- make the mount in busybox.anaconda default to -onolock
+
+* Wed Jan 09 2002 Tim Powers <timp@redhat.com>
+`- automated rebuild
+
 * Mon Jul  9 2001 Tim Powers <timp@redhat.com>
 - don't obsolete sash
 - fix URL and spelling in desc. to satisfy rpmlint
