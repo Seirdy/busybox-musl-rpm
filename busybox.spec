@@ -1,12 +1,13 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 0.60.2
-Release: 4
+Release: 4a
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.gz
 Patch: busybox-static.patch
 Patch1: busybox-anaconda.patch
+Patch2: busybox-s390.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 
@@ -30,6 +31,7 @@ normal use.
 %prep
 %setup -q
 %patch -b .static -p1
+%patch2 -p1
 
 %build
 make
