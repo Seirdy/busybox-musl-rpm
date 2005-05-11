@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.00
-Release: 4
+Release: 5
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -53,14 +53,14 @@ done
 
 patch -b --suffix .anaconda -p1 < %{PATCH1}
 make DOLFS=y defconfig
-make 
+make CONFIG_DEBUG=y
 
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/sbin
 mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
-install -s -m 755 busybox-static $RPM_BUILD_ROOT/sbin/busybox
-install -s -m 755 busybox $RPM_BUILD_ROOT/sbin/busybox.anaconda
+install -m 755 busybox-static $RPM_BUILD_ROOT/sbin/busybox
+install -m 755 busybox $RPM_BUILD_ROOT/sbin/busybox.anaconda
 install -m 644 docs/BusyBox.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
 
 %clean
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Tue May 11 2005 Ivana Varekova <varekova@redhat.com> - 1.00-5
+- add debug files to debug_package
+
 * Mon Mar  7 2005 Ivana Varekova <varekova@redhat.com> - 1.00-4
 - rebuilt
 
