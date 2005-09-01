@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.00
-Release: 5
+Version: 1.01
+Release: 1
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -9,7 +9,6 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Patch: busybox-static.patch
 Patch1: busybox-anaconda.patch
 Patch2: busybox-selinux.patch
-Patch3: busybox-1.00-declar.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel
@@ -38,7 +37,6 @@ cp sysdeps/linux/defconfig .config
 %patch2 -b .selinux -p1
 %patch -b .static -p1
 #%patch1 -b .anaconda -p1
-%patch3 -b .declar -p1
 
 %build
 make defconfig
@@ -76,6 +74,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Thu Sep  1 2005 Ivana Varekova <varekova@redhat.com> - 1.01-1
+- update to 1.01
+ 
 * Tue May 11 2005 Ivana Varekova <varekova@redhat.com> - 1.00-5
 - add debug files to debug_package
 
