@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.01
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -11,7 +11,7 @@ Patch1: busybox-anaconda.patch
 Patch2: busybox-selinux.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
-BuildRequires: libselinux-devel
+BuildRequires: libselinux-devel >= 1.27.7-2
 
 %package anaconda
 Group: System Environment/Shells
@@ -74,6 +74,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Thu Oct 13 2005 Daniel Walsh <dwalsh@redhat.com> -  1.01-2
+- Add sepol for linking load_policy
+
 * Thu Sep  1 2005 Ivana Varekova <varekova@redhat.com> - 1.01-1
 - update to 1.01
  
