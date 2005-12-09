@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.01
-Release: 2
+Release: 2.1
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -74,6 +74,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Thu Oct 13 2005 Daniel Walsh <dwalsh@redhat.com> -  1.01-2
 - Add sepol for linking load_policy
 
