@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.01
-Release: 2.2.1
+Release: 3
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -12,6 +12,7 @@ Patch2: busybox-selinux.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
+BuildRequires: libsepol-devel
 
 %package anaconda
 Group: System Environment/Shells
