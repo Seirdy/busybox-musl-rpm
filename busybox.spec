@@ -45,7 +45,7 @@ normal use.
 
 %build
 make defconfig
-make CC="gcc $RPM_OPT_FLAGS"
+make 
 cp busybox busybox-static
 make clean
 
@@ -56,7 +56,7 @@ done
 
 patch -b --suffix .anaconda -p1 < %{PATCH1}
 make DOLFS=y defconfig
-make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
+make CONFIG_DEBUG=y 
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -83,7 +83,6 @@ rm -rf $RPM_BUILD_ROOT
 - update to 1.1.1
 - fix CVE-2006-1058 - BusyBox passwd command 
   fails to generate password with salt (#187386)
-- add RPM_OPT_FLAGS
 - add -minimal-toc option
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1:1.01-2.2.1
