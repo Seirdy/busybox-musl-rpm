@@ -11,6 +11,7 @@ Patch1: busybox-1.1.1-anaconda.patch
 Patch2: busybox-1.1.1-selinux.patch
 Patch3: busybox-1.1.1-cve-2006-1058.patch
 Patch4: busybox-1.1.1-ppc64.patch
+Patch5: busybox-1.1.1-page_size.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -42,10 +43,11 @@ normal use.
 %ifarch ppc64
 %patch4 -b .ppc64 -p1
 %endif
+%patch5 -b .ia64 -p1
 
 %build
 make defconfig
-make 
+make CC="gcc $RPM_OPT_FLAGS"
 cp busybox busybox-static
 make clean
 
@@ -56,7 +58,7 @@ done
 
 patch -b --suffix .anaconda -p1 < %{PATCH1}
 make DOLFS=y defconfig
-make CONFIG_DEBUG=y 
+make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -79,11 +81,13 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
-* Wed Apr  28 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.1-1
+* Wed May 03 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.1-1
 - update to 1.1.1
 - fix CVE-2006-1058 - BusyBox passwd command 
   fails to generate password with salt (#187386)
 - add -minimal-toc option
+- add RPM_OPT_FLAGS
+- remove asm/page.h used sysconf command to get PAGE_SIZE
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1:1.01-2.2.1
 - bump again for double-long bug on ppc(64)
