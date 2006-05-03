@@ -12,6 +12,7 @@ Patch2: busybox-1.1.1-selinux.patch
 Patch3: busybox-1.1.1-cve-2006-1058.patch
 Patch4: busybox-1.1.1-ppc64.patch
 Patch5: busybox-1.1.1-page_size.patch
+Patch6: busybox-1.1.1-overfl.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -44,6 +45,7 @@ normal use.
 %patch4 -b .ppc64 -p1
 %endif
 %patch5 -b .ia64 -p1
+%patch6 -b .overfl -p1
 
 %build
 make defconfig
@@ -88,6 +90,7 @@ rm -rf $RPM_BUILD_ROOT
 - add -minimal-toc option
 - add RPM_OPT_FLAGS
 - remove asm/page.h used sysconf command to get PAGE_SIZE
+- add overfl patch to aviod Buffer warning
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1:1.01-2.2.1
 - bump again for double-long bug on ppc(64)
