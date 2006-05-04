@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.1.1
-Release: 1
+Release: 2
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -13,6 +13,7 @@ Patch3: busybox-1.1.1-cve-2006-1058.patch
 Patch4: busybox-1.1.1-ppc64.patch
 Patch5: busybox-1.1.1-page_size.patch
 Patch6: busybox-1.1.1-overfl.patch
+Patch7: busybox-1.1.1-id_ps.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -46,6 +47,7 @@ normal use.
 %endif
 %patch5 -b .ia64 -p1
 %patch6 -b .overfl -p1
+%patch7 -b .id_ps -p1
 
 %build
 make defconfig
@@ -83,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Thu May  4 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.1-2
+- add -Z option to id command, rename ps command -Z option (#190534)
+
 * Wed May 03 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.1-1
 - update to 1.1.1
 - fix CVE-2006-1058 - BusyBox passwd command 
