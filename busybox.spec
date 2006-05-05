@@ -1,6 +1,6 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.1.1
+Version: 1.1.2
 Release: 2
 Epoch: 1
 License: GPL
@@ -85,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Fri May  5 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.2-1
+- update to 1.1.2
+
 * Thu May  4 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.1-2
 - add -Z option to id command, rename ps command -Z option (#190534)
 
