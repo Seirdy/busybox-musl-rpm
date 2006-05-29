@@ -14,6 +14,7 @@ Patch4: busybox-1.1.1-ppc64.patch
 Patch5: busybox-1.1.1-page_size.patch
 Patch6: busybox-1.1.1-overfl.patch
 Patch7: busybox-1.1.1-id_ps.patch
+Patch8: busybox-1.1.2-gcc111.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -48,6 +49,7 @@ normal use.
 %patch5 -b .ia64 -p1
 %patch6 -b .overfl -p1
 %patch7 -b .id_ps -p1
+%patch8 -b .gcc111 -p1
 
 %build
 make defconfig
@@ -61,6 +63,7 @@ find . -name "*.static" | while read n; do
 done
 
 patch -b --suffix .anaconda -p1 < %{PATCH1}
+patch -b --suffix .gcc111 -p1 <%{PATCH8}
 make DOLFS=y defconfig
 make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
 
@@ -85,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Mon May 29 2006 Ivana Varekova <varekova@redhat.com> -1:1.1.2-2
+- fix Makefile typo (#193354)
+
 * Fri May  5 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.2-1
 - update to 1.1.2
 
