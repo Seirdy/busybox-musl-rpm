@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.1.2
-Release: 3
+Version: 1.1.3
+Release: 1
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -9,7 +9,6 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Patch: busybox-1.1.1-static.patch
 Patch1: busybox-1.1.1-anaconda.patch
 Patch2: busybox-1.1.1-selinux.patch
-Patch3: busybox-1.1.1-cve-2006-1058.patch
 Patch4: busybox-1.1.1-ppc64.patch
 Patch5: busybox-1.1.1-page_size.patch
 Patch6: busybox-1.1.1-overfl.patch
@@ -42,7 +41,6 @@ normal use.
 #SELINUX Patch
 %patch2 -b .selinux -p1
 %patch -b .static -p1
-%patch3 -b .cve-2006-1058 -p1
 %ifarch ppc64
 %patch4 -b .ppc64 -p1
 %endif
@@ -88,7 +86,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
-* Mon May 29 2006 Ivana Varekova <varekova@redhat.com> -1:1.1.2-3
+* Wed May 31 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.3-1
+- update to 1.1.3
+
+* Mon May 29 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.2-3
 - fix Makefile typo (#193354)
 
 * Fri May  5 2006 Ivana Varekova <varekova@redhat.com> - 1:1.1.2-1
