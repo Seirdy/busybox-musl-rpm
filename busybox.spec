@@ -9,7 +9,7 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Patch: busybox-1.2.0-static.patch
 Patch1: busybox-1.2.0-anaconda.patch
 Patch2: busybox-1.2.0-selinux.patch
-Patch4: busybox-1.1.1-ppc64.patch
+Patch4: busybox-1.2.0-ppc64.patch
 Patch5: busybox-1.2.0-page_size.patch
 Patch7: busybox-1.2.0-id_ps.patch
 Patch8: busybox-1.2.0-gcc41.patch
