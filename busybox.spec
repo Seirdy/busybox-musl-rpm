@@ -1,19 +1,18 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.1.3
-Release: 2
+Version: 1.2.0
+Release: 1
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
-Patch: busybox-1.1.1-static.patch
-Patch1: busybox-1.1.1-anaconda.patch
-Patch2: busybox-1.1.1-selinux.patch
+Patch: busybox-1.2.0-static.patch
+Patch1: busybox-1.2.0-anaconda.patch
+Patch2: busybox-1.2.0-selinux.patch
 Patch4: busybox-1.1.1-ppc64.patch
-Patch5: busybox-1.1.1-page_size.patch
-Patch6: busybox-1.1.1-overfl.patch
-Patch7: busybox-1.1.1-id_ps.patch
-Patch8: busybox-1.1.2-gcc111.patch
+Patch5: busybox-1.2.0-page_size.patch
+Patch7: busybox-1.2.0-id_ps.patch
+Patch8: busybox-1.2.0-gcc41.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -45,7 +44,6 @@ normal use.
 %patch4 -b .ppc64 -p1
 %endif
 %patch5 -b .ia64 -p1
-%patch6 -b .overfl -p1
 %patch7 -b .id_ps -p1
 %patch8 -b .gcc111 -p1
 
@@ -61,7 +59,7 @@ find . -name "*.static" | while read n; do
 done
 
 patch -b --suffix .anaconda -p1 < %{PATCH1}
-patch -b --suffix .gcc111 -p1 <%{PATCH8}
+#patch -b --suffix .gcc111 -p1 <%{PATCH8}
 make DOLFS=y defconfig
 make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
 
@@ -86,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Tue Jul  4 2006 Ivana Varekova <varekova@redhat.com> - 1:1.2.0-1
+- update to 1.2.0
+
 * Thu Jun  8 2006 Jeremy Katz <katzj@redhat.com> - 1:1.1.3-2
 - fix so that busybox.anaconda has sh
 

@@ -1,0 +1,23 @@
+--- busybox-1.2.0/util-linux/nfsmount.c.anaconda	2006-07-01 00:42:13.000000000 +0200
++++ busybox-1.2.0/util-linux/nfsmount.c	2006-07-04 12:19:42.000000000 +0200
+@@ -412,7 +412,7 @@
+ 	intr = 0;
+ 	posix = 0;
+ 	nocto = 0;
+-	nolock = 0;
++	nolock = 1;
+ 	noac = 0;
+ 	retry = 10000;		/* 10000 minutes ~ 1 week */
+ 	tcp = 0;
+--- busybox-1.2.0/Makefile.anaconda	2006-07-04 12:19:42.000000000 +0200
++++ busybox-1.2.0/Makefile	2006-07-04 12:37:25.000000000 +0200
+@@ -228,7 +228,8 @@
+ 
+ defconfig: scripts/config/conf
+ 	@./scripts/config/conf -y $(CONFIG_CONFIG_IN) > /dev/null
+-	@$(SED) -i -r -e "s/^(USING_CROSS_COMPILER|CONFIG_(DEBUG.*|STATIC|BUILD_(AT_ONCE|LIBBUSYBOX)|FEATURE_(DEVFS|FULL_LIBBUSYBOX|SHARED_BUSYBOX|MTAB_SUPPORT|CLEAN_UP|UDHCP_DEBUG)|INSTALL_NO_USR))=.*/# \1 is not set/" .config
++	@$(SED) -i -r -e "s/^(CONFIG_FEATURE_UNARCHIVE_TAPE|CONFIG_FEATURE_LS_COLOR|CONFIG_FEATURE_VI_READONLY|CONFIG_FEATURE_SH_IS_NONE|CONFIG_INIT|CONFIG_POWEROFF|CONFIG_REBOOT|CONFIG_HALT|CONFIG_ASH_JOB_CONTROL|CONFIG_SYSLOGD|CONFIG_KLOGD|CONFIG_LOGGER|USING_CROSS_COMPILER|CONFIG_(DEBUG.*|STATIC|BUILD_(AT_ONCE|LIBBUSYBOX)|FEATURE_(DEVFS|FULL_LIBBUSYBOX|SHARED_BUSYBOX|MTAB_SUPPORT|CLEAN_UP|UDHCP_DEBUG)|INSTALL_NO_USR))=.*/# \1 is not set/" .config
++	@$(SED) -i -r -e "s/^# CONFIG_FEATURE_SH_IS_ASH is not set/CONFIG_FEATURE_SH_IS_ASH=y/" .config
+ 	@./scripts/config/conf -o $(CONFIG_CONFIG_IN) > /dev/null
+ 
+ 

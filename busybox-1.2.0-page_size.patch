@@ -1,0 +1,29 @@
+--- busybox-1.1.1/util-linux/mkswap.c.ia64	2006-03-22 22:16:26.000000000 +0100
++++ busybox-1.1.1/util-linux/mkswap.c	2006-05-03 11:25:48.000000000 +0200
+@@ -42,7 +42,8 @@
+ #include <stdlib.h>
+ #include <sys/ioctl.h>			/* for _IO */
+ #include <sys/utsname.h>
+-#include <asm/page.h>			/* for PAGE_SIZE and PAGE_SHIFT */
++//#include <asm/page.h>			
++#include <unistd.h>             /* for syssconf command to get PAGE_SIZE and PAGE_SHIFT */
+ 				/* we also get PAGE_SIZE via getpagesize() */
+ #include "busybox.h"
+ 
+@@ -54,6 +55,8 @@
+ #define BLKGETSIZE _IO(0x12,96)
+ #endif
+ 
++unsigned long PAGE_SIZE;
++
+ static char *device_name = NULL;
+ static int DEV = -1;
+ static long PAGES = 0;
+@@ -84,6 +87,7 @@
+ static inline void init_signature_page(void)
+ {
+ 	pagesize = getpagesize();
++        PAGE_SIZE = sysconf(_SC_PAGE_SIZE);
+ 
+ #ifdef PAGE_SIZE
+ 	if (pagesize != PAGE_SIZE)
