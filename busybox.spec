@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.2.0
-Release: 1.1
+Release: 2
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -13,6 +13,7 @@ Patch4: busybox-1.2.0-ppc64.patch
 Patch5: busybox-1.2.0-page_size.patch
 Patch7: busybox-1.2.0-id_ps.patch
 Patch8: busybox-1.2.0-gcc41.patch
+Patch9: busybox-1.2.0-tar.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -46,6 +47,7 @@ normal use.
 %patch5 -b .ia64 -p1
 %patch7 -b .id_ps -p1
 %patch8 -b .gcc111 -p1
+%patch9 -b .tar -p1
 
 %build
 make defconfig
@@ -84,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Mon Aug 28 2006 Ivana Varekova <varekova@redhat.com> - 1:1.2.0-2
+- fix #202891 - tar problem
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 1:1.2.0-1.1
 - rebuild
 

@@ -1,0 +1,23 @@
+--- busybox-1.2.0/archival/tar.c.pom	2006-07-01 00:42:04.000000000 +0200
++++ busybox-1.2.0/archival/tar.c	2006-08-28 11:39:42.000000000 +0200
+@@ -45,6 +45,9 @@
+ 
+ #define TAR_BLOCK_SIZE		512
+ 
++static const int TAR_MAGIC_LEN = 6;
++static const int TAR_VERSION_LEN = 2;
++
+ /* POSIX tar Header Block, from POSIX 1003.1-1990  */
+ #define NAME_SIZE			100
+ struct TarHeader {		/* byte offset */
+@@ -211,7 +214,9 @@
+ 	putOctal(header.gid, sizeof(header.gid), statbuf->st_gid);
+ 	putOctal(header.size, sizeof(header.size), 0);	/* Regular file size is handled later */
+ 	putOctal(header.mtime, sizeof(header.mtime), statbuf->st_mtime);
+-	strcpy(header.magic, "ustar  ");
++	
++	strncpy(header.magic, "ustar ",TAR_MAGIC_LEN);
++	strncpy(header.version," ",TAR_VERSION_LEN);
+ 
+ 	/* Enter the user and group names (default to root if it fails) */
+ 	if (bb_getpwuid(header.uname, statbuf->st_uid, sizeof(header.uname)) == NULL)
