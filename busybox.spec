@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.2.2
-Release: 1
+Release: 1%{?dist}
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
