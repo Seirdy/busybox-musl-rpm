@@ -15,6 +15,7 @@ Patch7: busybox-1.2.2-id_ps.patch
 Patch8: busybox-1.2.0-gcc41.patch
 Patch9: busybox-1.2.0-tar.patch
 Patch10: busybox-1.2.2-ash.patch
+Patch11: busybox-1.2.2-iptunnel.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -50,6 +51,7 @@ normal use.
 %patch8 -b .gcc111 -p1
 %patch9 -b .tar -p1
 %patch10 -b .ash -p1
+%patch11 -b .iptunnel -p1
 
 %build
 make defconfig
@@ -88,9 +90,11 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+
 * Mon Jan 22 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-3
 - Resolves: 223620
   id output shows context twice
+- fix iptunnel x kernel-headers problem
 
 * Mon Dec 10 2006 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-2
 - enable ash 
