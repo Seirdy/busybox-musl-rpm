@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.2.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -11,7 +11,7 @@ Patch1: busybox-1.2.0-anaconda.patch
 Patch2: busybox-1.2.0-selinux.patch
 Patch4: busybox-1.2.0-ppc64.patch
 Patch5: busybox-1.2.0-page_size.patch
-Patch7: busybox-1.2.0-id_ps.patch
+Patch7: busybox-1.2.2-id_ps.patch
 Patch8: busybox-1.2.0-gcc41.patch
 Patch9: busybox-1.2.0-tar.patch
 Patch10: busybox-1.2.2-ash.patch
@@ -88,6 +88,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Mon Jan 22 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-3
+- Resolves: 223620
+  id output shows context twice
+
 * Mon Dec 10 2006 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-2
 - enable ash 
 
