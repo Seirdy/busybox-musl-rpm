@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.2.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -20,6 +20,8 @@ URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
+
+%define debug_package %{nil}  
 
 %package anaconda
 Group: System Environment/Shells
@@ -90,6 +92,8 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Tue Jan 30 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-4
+- remove debuginfo
 
 * Mon Jan 22 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-3
 - Resolves: 223620
