@@ -48,7 +48,7 @@
  		bb_fflush_stdout_and_exit(EXIT_SUCCESS);
  	}
  
-+#ifndef CONFIG_SELINUX
++#ifdef CONFIG_SELINUX
 +       if ((flags & JUST_CONTEXT) & (is_selinux_enabled())) {
 +               flags -= JUST_CONTEXT;
 +       }
