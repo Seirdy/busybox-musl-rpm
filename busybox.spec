@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.2.2
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -17,7 +17,7 @@ Patch9: busybox-1.2.0-tar.patch
 Patch10: busybox-1.2.2-ash.patch
 Patch11: busybox-1.2.2-iptunnel.patch
 URL: http://www.busybox.net
-BuildRoot: %{_tmppath}/%{name}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
 
@@ -56,19 +56,19 @@ normal use.
 %patch11 -b .iptunnel -p1
 
 %build
+# create static busybox - the executable is kept as busybox-static
 make defconfig
 make CC="gcc $RPM_OPT_FLAGS"
 cp busybox busybox-static
 make clean
 
-# revert the patch
-find . -name "*.static" | while read n; do
-    mv $n $(echo $n | sed 's/\.static$//')
-done
-
+# create busybox optimized for anaconda 
+# revert the static patch
+patch -R -p1 <%{PATCH0}
+# applied anaconda patch
 patch -b --suffix .anaconda -p1 < %{PATCH1}
-#patch -b --suffix .gcc111 -p1 <%{PATCH8}
-make DOLFS=y defconfig
+
+make defconfig
 make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
 
 %install
@@ -77,21 +77,27 @@ mkdir -p $RPM_BUILD_ROOT/sbin
 mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
 install -m 755 busybox-static $RPM_BUILD_ROOT/sbin/busybox
 install -m 755 busybox $RPM_BUILD_ROOT/sbin/busybox.anaconda
-install -m 644 docs/BusyBox.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
+install -p docs/BusyBox.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
+chmod 644 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
+%doc LICENSE docs/BusyBox.html
+%defattr(-,root,root,-)
 /sbin/busybox
 %{_mandir}/man1/busybox*
 
 %files anaconda
-%defattr(-,root,root)
+%doc LICENSE docs/BusyBox.html
+%defattr(-,root,root,-)
 /sbin/busybox.anaconda
 
 %changelog
+* Mon Feb 19 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-6
+- incorporate package review feedback
+
 * Fri Feb  2 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-5
 - fix id_ps patch (thanks Chris MacGregor)
 
