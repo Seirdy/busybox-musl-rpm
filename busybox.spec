@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.2.2
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -16,6 +16,7 @@ Patch8: busybox-1.2.0-gcc41.patch
 Patch9: busybox-1.2.0-tar.patch
 Patch10: busybox-1.2.2-ash.patch
 Patch11: busybox-1.2.2-iptunnel.patch
+Patch12: busybox-1.2.2-ls.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -54,6 +55,7 @@ normal use.
 %patch9 -b .tar -p1
 %patch10 -b .ash -p1
 %patch11 -b .iptunnel -p1
+%patch12 -b .ls -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -95,6 +97,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.anaconda
 
 %changelog
+* Mon Apr  2 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-7
+- Resolves: 234769 
+  busybox ls does not work without a tty
+
 * Mon Feb 19 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-6
 - incorporate package review feedback
 
