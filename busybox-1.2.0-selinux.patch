@@ -199,17 +199,6 @@
  source shell/Config.in
  source sysklogd/Config.in
 +source selinux/Config.in
---- busybox-1.2.0/Rules.mak.selinux	2006-07-01 00:42:13.000000000 +0200
-+++ busybox-1.2.0/Rules.mak	2006-07-03 13:22:00.000000000 +0200
-@@ -397,7 +397,7 @@
- 			-o $@ $(LD_START_GROUP)  \
- 			$(APPLETS_DEFINE) $(APPLET_SRC) \
- 			$(BUSYBOX_DEFINE) $(BUSYBOX_SRC) $(libraries-y) \
--			$(LDBUSYBOX) $(LIBRARIES) \
-+			$(LDBUSYBOX) $(LIBRARIES) -lsepol\
- 			$(LD_END_GROUP)
- cmd_link.so        = $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(LDFLAGS) \
- 			$(LIB_CFLAGS) $(CFLAGS_COMBINE) $(LIB_LDFLAGS) \
 --- busybox-1.2.0/Makefile.selinux	2006-07-01 00:42:13.000000000 +0200
 +++ busybox-1.2.0/Makefile	2006-07-03 13:22:00.000000000 +0200
 @@ -33,7 +33,7 @@

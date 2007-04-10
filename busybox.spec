@@ -1,18 +1,18 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.2.2
-Release: 7%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
+Source1: busybox-petitboot.config
 Patch: busybox-1.2.0-static.patch
 Patch1: busybox-1.2.0-anaconda.patch
 Patch2: busybox-1.2.0-selinux.patch
 Patch4: busybox-1.2.0-ppc64.patch
 Patch5: busybox-1.2.0-page_size.patch
 Patch7: busybox-1.2.2-id_ps.patch
-Patch8: busybox-1.2.0-gcc41.patch
 Patch9: busybox-1.2.0-tar.patch
 Patch10: busybox-1.2.2-ash.patch
 Patch11: busybox-1.2.2-iptunnel.patch
@@ -28,6 +28,10 @@ BuildRequires: libsepol-devel
 Group: System Environment/Shells
 Summary: Version of busybox configured for use with anaconda
 
+%package petitboot
+Group: System Environment/Shells
+Summary: Version of busybox configured for use with petitboot
+
 %description 
 Busybox is a single binary which includes versions of a large number
 of system commands, including a shell.  This package can be very
@@ -41,6 +45,13 @@ package is designed for use with the Red Hat installation program,
 anaconda. The busybox package provides a binary better suited to
 normal use.
 
+%description petitboot
+Busybox is a single binary which includes versions of a large number
+of system commands, including a shell.  The version contained in this
+package is a minimal configuration intended for use with the Petitboot
+bootloader used on PlayStation 3. The busybox package provides a binary
+better suited to normal use.
+
 %prep
 %setup -q
 #SELINUX Patch
@@ -51,7 +62,6 @@ normal use.
 %endif
 %patch5 -b .ia64 -p1
 %patch7 -b .id_ps -p1
-%patch8 -b .gcc111 -p1
 %patch9 -b .tar -p1
 %patch10 -b .ash -p1
 %patch11 -b .iptunnel -p1
@@ -72,13 +82,21 @@ patch -b --suffix .anaconda -p1 < %{PATCH1}
 
 make defconfig
 make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
+cp busybox busybox.anaconda
+
+make clean
+cp %{SOURCE1} .config
+yes "" | make oldconfig
+make CC="gcc $RPM_OPT_FLAGS -Os"
+cp busybox busybox.petitboot
 
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/sbin
 mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
 install -m 755 busybox-static $RPM_BUILD_ROOT/sbin/busybox
-install -m 755 busybox $RPM_BUILD_ROOT/sbin/busybox.anaconda
+install -m 755 busybox.anaconda $RPM_BUILD_ROOT/sbin/busybox.anaconda
+install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
 install -p docs/BusyBox.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
 chmod 644 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
 
@@ -96,7 +114,15 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 /sbin/busybox.anaconda
 
+%files petitboot
+%doc LICENSE docs/BusyBox.html
+%defattr(-,root,root,-)
+/sbin/busybox.petitboot
+
 %changelog
+* Sat Apr  7 2007 David Woodhouse <dwmw2@redhat.com> - 1:1.2.2-8
+- Add busybox-petitboot subpackage
+
 * Mon Apr  2 2007 Ivana Varekova <varekova@redhat.com> - 1:1.2.2-7
 - Resolves: 234769 
   busybox ls does not work without a tty
