@@ -1,22 +1,20 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.2.2
-Release: 8%{?dist}
+Version: 1.5.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-petitboot.config
-Patch: busybox-1.2.0-static.patch
-Patch1: busybox-1.2.0-anaconda.patch
-Patch2: busybox-1.2.0-selinux.patch
+Patch: busybox-1.5.1-static.patch
+Patch1: busybox-1.5.1-anaconda.patch
+Patch2: busybox-1.5.1-selinux.patch
 Patch4: busybox-1.2.0-ppc64.patch
-Patch5: busybox-1.2.0-page_size.patch
-Patch7: busybox-1.2.2-id_ps.patch
-Patch9: busybox-1.2.0-tar.patch
-Patch10: busybox-1.2.2-ash.patch
+Patch9: busybox-1.5.1-tar.patch
 Patch11: busybox-1.2.2-iptunnel.patch
 Patch12: busybox-1.2.2-ls.patch
+Patch13: busybox-1.5.1-clean.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -54,16 +52,14 @@ better suited to normal use.
 
 %prep
 %setup -q
+%patch13 -b .clean -p1
 #SELINUX Patch
 %patch2 -b .selinux -p1
 %patch -b .static -p1
 %ifarch ppc64
 %patch4 -b .ppc64 -p1
 %endif
-%patch5 -b .ia64 -p1
-%patch7 -b .id_ps -p1
 %patch9 -b .tar -p1
-%patch10 -b .ash -p1
 %patch11 -b .iptunnel -p1
 %patch12 -b .ls -p1
 
@@ -71,6 +67,7 @@ better suited to normal use.
 # create static busybox - the executable is kept as busybox-static
 make defconfig
 make CC="gcc $RPM_OPT_FLAGS"
+ls -la
 cp busybox busybox-static
 make clean
 
@@ -97,29 +94,29 @@ mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
 install -m 755 busybox-static $RPM_BUILD_ROOT/sbin/busybox
 install -m 755 busybox.anaconda $RPM_BUILD_ROOT/sbin/busybox.anaconda
 install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
-install -p docs/BusyBox.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
-chmod 644 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%doc LICENSE docs/BusyBox.html
+%doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
 %defattr(-,root,root,-)
 /sbin/busybox
-%{_mandir}/man1/busybox*
 
 %files anaconda
-%doc LICENSE docs/BusyBox.html
+%doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
 %defattr(-,root,root,-)
 /sbin/busybox.anaconda
 
 %files petitboot
-%doc LICENSE docs/BusyBox.html
+%doc LICENSE 
 %defattr(-,root,root,-)
 /sbin/busybox.petitboot
 
 %changelog
+* Thu May 24 2007 Ivana Varekova <varekova@redhat.com> - 1:1.5.1-1
+- update to 1.5.1
+
 * Sat Apr  7 2007 David Woodhouse <dwmw2@redhat.com> - 1:1.2.2-8
 - Add busybox-petitboot subpackage
 

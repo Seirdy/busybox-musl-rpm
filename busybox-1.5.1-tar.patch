@@ -1,0 +1,22 @@
+--- busybox-1.5.1/archival/tar.c.pom	2007-05-20 18:55:18.000000000 +0200
++++ busybox-1.5.1/archival/tar.c	2007-05-23 16:15:01.000000000 +0200
+@@ -34,6 +34,9 @@
+ 
+ #define TAR_BLOCK_SIZE		512
+ 
++static const int TAR_MAGIC_LEN = 6; 
++static const int TAR_VERSION_LEN = 2; 
++
+ /* POSIX tar Header Block, from POSIX 1003.1-1990  */
+ #define NAME_SIZE      100
+ #define NAME_SIZE_STR "100"
+@@ -178,7 +181,8 @@
+ 	const unsigned char *cp;
+ 	int chksum, size;
+ 
+-	strcpy(hp->magic, "ustar  ");
++        strncpy(hp->magic, "ustar ",TAR_MAGIC_LEN); 
++        strncpy(hp->version," ",TAR_VERSION_LEN); 
+ 
+ 	/* Calculate and store the checksum (i.e., the sum of all of the bytes of
+ 	 * the header).  The checksum field must be filled with blanks for the
