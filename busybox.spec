@@ -57,7 +57,7 @@ better suited to normal use.
 %patch2 -b .selinux -p1
 %patch -b .static -p1
 %ifarch ppc64
-%patch4 -b .ppc64 -p1
+#%patch4 -b .ppc64 -p1
 %endif
 %patch9 -b .tar -p1
 %patch11 -b .iptunnel -p1
