@@ -1,0 +1,20 @@
+--- busybox-1.5.1/scripts/defconfig.pom	2007-06-01 13:10:24.000000000 +0200
++++ busybox-1.5.1/scripts/defconfig	2007-06-01 13:37:39.000000000 +0200
+@@ -625,7 +625,7 @@
+ CONFIG_FEATURE_SH_IS_ASH=y
+ # CONFIG_FEATURE_SH_IS_HUSH is not set
+ # CONFIG_FEATURE_SH_IS_LASH is not set
+-# CONFIG_FEATURE_SH_IS_MSH is not set
++CONFIG_FEATURE_SH_IS_MSH=y
+ # CONFIG_FEATURE_SH_IS_NONE is not set
+ CONFIG_ASH=y
+ 
+@@ -648,7 +648,7 @@
+ # CONFIG_ASH_EXPAND_PRMT is not set
+ # CONFIG_HUSH is not set
+ # CONFIG_LASH is not set
+-# CONFIG_MSH is not set
++CONFIG_MSH=y
+ 
+ #
+ # Bourne Shell Options
