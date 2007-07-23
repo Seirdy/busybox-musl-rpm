@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.5.1
-Release: 2%{?dist}
+Version: 1.6.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPL
 Group: System Environment/Shells
@@ -9,13 +9,13 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-petitboot.config
 Patch: busybox-1.5.1-static.patch
 Patch1: busybox-1.5.1-anaconda.patch
-Patch2: busybox-1.5.1-selinux.patch
 Patch4: busybox-1.2.0-ppc64.patch
 Patch9: busybox-1.5.1-tar.patch
 Patch11: busybox-1.2.2-iptunnel.patch
 Patch12: busybox-1.2.2-ls.patch
 Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.5.1-msh.patch
+Patch15: busybox-1.6.1-st_err.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -55,7 +55,6 @@ better suited to normal use.
 %setup -q
 %patch13 -b .clean -p1
 #SELINUX Patch
-%patch2 -b .selinux -p1
 %patch -b .static -p1
 %ifarch ppc64
 #%patch4 -b .ppc64 -p1
@@ -64,12 +63,12 @@ better suited to normal use.
 %patch11 -b .iptunnel -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
+%patch15 -b .st_err -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
 make defconfig
 make CC="gcc $RPM_OPT_FLAGS"
-ls -la
 cp busybox busybox-static
 make clean
 
@@ -116,6 +115,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Mon Jul 23 2007 Ivana Varekova <varekova@redhat.com> - 1:1.6.1-1
+- update to 1.6.1
+
 * Fri Jun  1 2007 Ivana Varekova <varekova@redhat.com> - 1:1.5.1-2
 - add msh shell
 
