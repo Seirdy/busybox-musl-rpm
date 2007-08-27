@@ -3,7 +3,7 @@ Name: busybox
 Version: 1.6.1
 Release: 1%{?dist}
 Epoch: 1
-License: GPL
+License: GPLv2
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-petitboot.config
