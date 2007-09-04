@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.6.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -54,11 +54,7 @@ better suited to normal use.
 %prep
 %setup -q
 %patch13 -b .clean -p1
-#SELINUX Patch
 %patch -b .static -p1
-%ifarch ppc64
-#%patch4 -b .ppc64 -p1
-%endif
 %patch9 -b .tar -p1
 %patch11 -b .iptunnel -p1
 %patch12 -b .ls -p1
@@ -77,21 +73,22 @@ make clean
 patch -R -p1 <%{PATCH0}
 # applied anaconda patch
 patch -b --suffix .anaconda -p1 < %{PATCH1}
-
 make defconfig
 make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
 cp busybox busybox.anaconda
 
+#create busybox optimized for petitboot
 make clean
+# copy new configuration file
 cp %{SOURCE1} .config
+# .config file has to be recreated to the new format
 yes "" | make oldconfig
-make CC="gcc $RPM_OPT_FLAGS -Os"
+make CC="%__cc $RPM_OPT_FLAGS"
 cp busybox busybox.petitboot
 
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/sbin
-mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
 install -m 755 busybox-static $RPM_BUILD_ROOT/sbin/busybox
 install -m 755 busybox.anaconda $RPM_BUILD_ROOT/sbin/busybox.anaconda
 install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
@@ -115,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Tue Sep  4 2007 Ivana Varekova <varekova@redhat.com> - 1:1.6.1-2
+- spec file cleanup
+
 * Mon Jul 23 2007 Ivana Varekova <varekova@redhat.com> - 1:1.6.1-1
 - update to 1.6.1
 
