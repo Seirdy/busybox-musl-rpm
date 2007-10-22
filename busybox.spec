@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.6.1
-Release: 2%{?dist}
+Version: 1.7.2
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -112,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Mon Oct 22 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.2-1
+- update to 1.7.2
+ 
 * Tue Sep  4 2007 Ivana Varekova <varekova@redhat.com> - 1:1.6.1-2
 - spec file cleanup
 
