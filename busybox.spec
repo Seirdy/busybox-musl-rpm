@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.7.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -16,6 +16,7 @@ Patch12: busybox-1.2.2-ls.patch
 Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.5.1-msh.patch
 Patch15: busybox-1.6.1-st_err.patch
+Patch16: busybox-1.7.2-sed.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -60,6 +61,7 @@ better suited to normal use.
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
 %patch15 -b .st_err -p1
+%patch16 -b .sed -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -112,6 +114,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Mon Oct 29 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.2-2
+- fix sed problem with output (#356111)
+
 * Mon Oct 22 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.2-1
 - update to 1.7.2
  
