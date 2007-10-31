@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.7.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -114,6 +114,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Wed Oct 31 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.2-3
+- fix another sed problem (forgotten fflush - #356111)
+
 * Mon Oct 29 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.2-2
 - fix sed problem with output (#356111)
 
