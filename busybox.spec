@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.7.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -17,6 +17,7 @@ Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.5.1-msh.patch
 Patch15: busybox-1.6.1-st_err.patch
 Patch16: busybox-1.7.2-sed.patch
+Patch17: busybox-1.7.2-grep.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -61,7 +62,8 @@ better suited to normal use.
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
 %patch15 -b .st_err -p1
-%patch16 -b .sed -p1
+%patch16 -b .ffl -p1
+%patch17 -b .ffl -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -114,6 +116,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Thu Nov  1 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.2-4
+- fix 359371 - problem with grep output
+
 * Wed Oct 31 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.2-3
 - fix another sed problem (forgotten fflush - #356111)
 
