@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.7.2
-Release: 4%{?dist}
+Version: 1.7.3
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -15,9 +15,7 @@ Patch11: busybox-1.2.2-iptunnel.patch
 Patch12: busybox-1.2.2-ls.patch
 Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.5.1-msh.patch
-Patch15: busybox-1.6.1-st_err.patch
-Patch16: busybox-1.7.2-sed.patch
-Patch17: busybox-1.7.2-grep.patch
+Patch15: busybox-1.7.2-gc-section.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -61,27 +59,26 @@ better suited to normal use.
 %patch11 -b .iptunnel -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
-%patch15 -b .st_err -p1
-%patch16 -b .ffl -p1
-%patch17 -b .ffl -p1
+%patch15 -b .sect -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
 make defconfig
 make CC="gcc $RPM_OPT_FLAGS"
 cp busybox busybox-static
-make clean
 
 # create busybox optimized for anaconda 
-# revert the static patch
+make clean
+# revert the static patches
 patch -R -p1 <%{PATCH0}
+patch -R -p1 <%{PATCH15}
 # applied anaconda patch
 patch -b --suffix .anaconda -p1 < %{PATCH1}
 make defconfig
 make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
 cp busybox busybox.anaconda
 
-#create busybox optimized for petitboot
+# create busybox optimized for petitboot
 make clean
 # copy new configuration file
 cp %{SOURCE1} .config
@@ -116,6 +113,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Tue Nov  6 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.3-1
+- update to 1.7.3 
+- remove --gc-sections from static build Makefile
+
 * Thu Nov  1 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.2-4
 - fix 359371 - problem with grep output
 
