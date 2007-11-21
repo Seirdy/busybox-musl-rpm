@@ -1,0 +1,73 @@
+diff -up busybox-1.8.1/scripts/trylink.pom busybox-1.8.1/scripts/trylink
+--- busybox-1.8.1/scripts/trylink.pom	2007-11-10 02:40:48.000000000 +0100
++++ busybox-1.8.1/scripts/trylink	2007-11-21 10:35:59.000000000 +0100
+@@ -65,7 +65,6 @@ try $CC $LDFLAGS \
+ 	-o $EXE \
+ 	-Wl,--sort-common \
+ 	-Wl,--sort-section -Wl,alignment \
+-	-Wl,--gc-sections \
+ 	-Wl,--start-group $O_FILES $A_FILES -Wl,--end-group \
+ 	$l_list \
+ || {
+@@ -89,7 +88,6 @@ while test "$LDLIBS"; do
+ 		-o $EXE \
+ 		-Wl,--sort-common \
+ 		-Wl,--sort-section -Wl,alignment \
+-		-Wl,--gc-sections \
+ 		-Wl,--start-group $O_FILES $A_FILES -Wl,--end-group \
+ 		$l_list
+ 	if test $? = 0; then
+@@ -118,7 +116,6 @@ if ! test -f busybox_ldscript; then
+ 	    -o $EXE \
+ 	    -Wl,--sort-common \
+ 	    -Wl,--sort-section -Wl,alignment \
+-	    -Wl,--gc-sections \
+ 	    -Wl,--start-group $O_FILES $A_FILES -Wl,--end-group \
+ 	    $l_list \
+ 	    -Wl,--warn-common \
+@@ -140,7 +137,6 @@ else
+ 	    -o $EXE \
+ 	    -Wl,--sort-common \
+ 	    -Wl,--sort-section -Wl,alignment \
+-	    -Wl,--gc-sections \
+ 	    -Wl,-T -Wl,busybox_ldscript \
+ 	    -Wl,--start-group $O_FILES $A_FILES -Wl,--end-group \
+ 	    $l_list \
+@@ -196,7 +192,6 @@ if test "$CONFIG_FEATURE_SHARED_BUSYBOX"
+ 	    -o $EXE \
+ 	    -Wl,--sort-common \
+ 	    -Wl,--sort-section -Wl,alignment \
+-	    -Wl,--gc-sections \
+ 	    -Wl,--start-group $O_FILES -Wl,--end-group \
+ 	    -L"$sharedlib_dir" -lbusybox \
+ 	    -Wl,--warn-common \
+@@ -235,7 +230,6 @@ int main(int argc, char **argv)
+ 		-o $EXE \
+ 		-Wl,--sort-common \
+ 		-Wl,--sort-section -Wl,alignment \
+-		-Wl,--gc-sections \
+ 		-L"$sharedlib_dir" -lbusybox \
+ 		-Wl,--warn-common \
+ 	|| {
+diff -up busybox-1.8.1/Makefile.pom busybox-1.8.1/Makefile
+diff -up busybox-1.8.1/applets/applets.c.pom busybox-1.8.1/applets/applets.c
+--- busybox-1.8.1/applets/applets.c.pom	2007-11-10 02:40:53.000000000 +0100
++++ busybox-1.8.1/applets/applets.c	2007-11-21 10:23:30.000000000 +0100
+@@ -10,17 +10,6 @@
+ #include <assert.h>
+ #include "busybox.h"
+ 
+-/* Apparently uclibc defines __GLIBC__ (compat trick?). Oh well. */
+-#if ENABLE_STATIC && defined(__GLIBC__) && !defined(__UCLIBC__)
+-#warning Static linking against glibc produces buggy executables
+-#warning (glibc does not cope well with ld --gc-sections).
+-#warning See sources.redhat.com/bugzilla/show_bug.cgi?id=3400
+-#warning Note that glibc is unsuitable for static linking anyway.
+-#warning If you still want to do it, remove -Wl,--gc-sections
+-#warning from top-level Makefile and remove this warning.
+-#error Aborting compilation.
+-#endif
+-
+ #if ENABLE_BUILD_LIBBUSYBOX
+ int main(int argc, char **argv)
+ {

@@ -1,6 +1,6 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.7.3
+Version: 1.8.1
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
@@ -15,7 +15,7 @@ Patch11: busybox-1.2.2-iptunnel.patch
 Patch12: busybox-1.2.2-ls.patch
 Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.5.1-msh.patch
-Patch15: busybox-1.7.2-gc-section.patch
+Patch15: busybox-1.8.1-gc-section.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -113,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Wed Nov 21 2007 Ivana Varekova <varekova@redhat.com> - 1:1.8.1-1
+- update to 1.8.1
+
 * Tue Nov  6 2007 Ivana Varekova <varekova@redhat.com> - 1:1.7.3-1
 - update to 1.7.3 
 - remove --gc-sections from static build Makefile
