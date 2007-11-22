@@ -64,7 +64,7 @@ better suited to normal use.
 %build
 # create static busybox - the executable is kept as busybox-static
 make defconfig
-make CC="gcc $RPM_OPT_FLAGS -E -dD"
+make CC="gcc $RPM_OPT_FLAGS"
 cp busybox busybox-static
 
 # create busybox optimized for anaconda 
