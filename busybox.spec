@@ -1,6 +1,6 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.8.1
+Version: 1.8.2
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
@@ -10,12 +10,11 @@ Source1: busybox-petitboot.config
 Patch: busybox-1.5.1-static.patch
 Patch1: busybox-1.5.1-anaconda.patch
 Patch4: busybox-1.2.0-ppc64.patch
-Patch9: busybox-1.5.1-tar.patch
 Patch11: busybox-1.2.2-iptunnel.patch
 Patch12: busybox-1.2.2-ls.patch
 Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.5.1-msh.patch
-Patch15: busybox-1.8.1-gc-section.patch
+Patch15: busybox-1.8.2-gc-section.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -55,7 +54,6 @@ better suited to normal use.
 %setup -q
 %patch13 -b .clean -p1
 %patch -b .static -p1
-%patch9 -b .tar -p1
 %patch11 -b .iptunnel -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
@@ -113,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Mon Dec  3 2007 Ivana Varekova <varekova@redhat.com> - 1:1.8.2-1
+- update to 1.8.2
+
 * Wed Nov 21 2007 Ivana Varekova <varekova@redhat.com> - 1:1.8.1-1
 - update to 1.8.1
 
