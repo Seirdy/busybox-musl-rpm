@@ -1,0 +1,21 @@
+diff -up busybox-1.9.0/scripts/defconfig.pom busybox-1.9.0/scripts/defconfig
+--- busybox-1.9.0/scripts/defconfig.pom	2008-01-07 12:39:03.000000000 +0100
++++ busybox-1.9.0/scripts/defconfig	2008-01-07 12:42:10.000000000 +0100
+@@ -686,7 +686,7 @@ CONFIG_WATCH=y
+ #
+ CONFIG_FEATURE_SH_IS_ASH=y
+ # CONFIG_FEATURE_SH_IS_HUSH is not set
+-# CONFIG_FEATURE_SH_IS_MSH is not set
++CONFIG_FEATURE_SH_IS_MSH=y
+ # CONFIG_FEATURE_SH_IS_NONE is not set
+ CONFIG_ASH=y
+ 
+@@ -715,7 +715,7 @@ CONFIG_ASH_RANDOM_SUPPORT=y
+ # CONFIG_HUSH_IF is not set
+ # CONFIG_HUSH_LOOPS is not set
+ # CONFIG_LASH is not set
+-# CONFIG_MSH is not set
++CONFIG_MSH=y
+ 
+ #
+ # Bourne Shell Options

@@ -1,5 +1,6 @@
---- busybox-1.8.2/scripts/trylink.sect	2007-11-24 05:31:28.000000000 +0100
-+++ busybox-1.8.2/scripts/trylink	2007-12-03 11:33:47.000000000 +0100
+diff -up busybox-1.9.0/scripts/trylink.sect busybox-1.9.0/scripts/trylink
+--- busybox-1.9.0/scripts/trylink.sect	2007-12-21 23:00:25.000000000 +0100
++++ busybox-1.9.0/scripts/trylink	2008-01-07 11:59:14.000000000 +0100
 @@ -76,7 +76,6 @@ try $CC $LDFLAGS \
  	-o $EXE \
  	-Wl,--sort-common \
@@ -48,8 +49,9 @@
  		-L"$sharedlib_dir" -lbusybox \
  		-Wl,--warn-common \
  	|| {
---- busybox-1.8.1/applets/applets.c.pom	2007-11-10 02:40:53.000000000 +0100
-+++ busybox-1.8.1/applets/applets.c	2007-11-21 10:23:30.000000000 +0100
+diff -up busybox-1.9.0/applets/applets.c.sect busybox-1.9.0/applets/applets.c
+--- busybox-1.9.0/applets/applets.c.sect	2007-12-21 23:00:32.000000000 +0100
++++ busybox-1.9.0/applets/applets.c	2008-01-07 12:00:45.000000000 +0100
 @@ -10,17 +10,6 @@
  #include <assert.h>
  #include "busybox.h"
@@ -61,7 +63,7 @@
 -#warning See sources.redhat.com/bugzilla/show_bug.cgi?id=3400
 -#warning Note that glibc is unsuitable for static linking anyway.
 -#warning If you still want to do it, remove -Wl,--gc-sections
--#warning from top-level Makefile and remove this warning.
+-#warning from scripts/trylink and remove this warning.
 -#error Aborting compilation.
 -#endif
 -
