@@ -1,0 +1,27 @@
+diff -up busybox-1.9.0/util-linux/hwclock.c.pom busybox-1.9.0/util-linux/hwclock.c
+--- busybox-1.9.0/util-linux/hwclock.c.pom	2007-12-21 23:00:33.000000000 +0100
++++ busybox-1.9.0/util-linux/hwclock.c	2008-02-08 13:07:43.000000000 +0100
+@@ -40,6 +40,15 @@ static int xopen_rtc(int flags)
+ 	int rtc;
+ 
+ 	if (!rtcname) {
++#ifdef __ia64__ 
++		rtc = open("/dev/efirtc", flags);
++		if (rtc >= 0)
++			return rtc;
++		rtc = open("/dev/efirtc0", flags);
++		if (rtc >= 0)
++			return rtc;
++		rtcname = "/dev/misc/efirtc";
++#else 
+ 		rtc = open("/dev/rtc", flags);
+ 		if (rtc >= 0)
+ 			return rtc;
+@@ -47,6 +56,7 @@ static int xopen_rtc(int flags)
+ 		if (rtc >= 0)
+ 			return rtc;
+ 		rtcname = "/dev/misc/rtc";
++#endif
+ 	}
+ 	return xopen(rtcname, flags);
+ }
