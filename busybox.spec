@@ -16,6 +16,7 @@ Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.9.0-msh.patch
 Patch15: busybox-1.9.0-gc-section.patch
 Patch16: busybox-1.9.0-hwclock.patch
+Patch17: busybox-1.9.1-headers.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -60,6 +61,7 @@ better suited to normal use.
 %patch14 -b .msh -p1
 %patch15 -b .sect -p1
 %patch16 -b .ia64 -p1
+%patch17 -b .head -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -115,6 +117,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Feb 14 2008 Ivana Varekova <varekova@redhat.com> - 1:1.9.1-1
 - update to 1.9.1
+- fix a problem with netfilter.h - thanks dwmw2
 
 * Fri Feb  8 2008 Ivana Varekova <varekova@redhat.com> - 1:1.9.0-2
 - fix hwclock on ia64 machines
