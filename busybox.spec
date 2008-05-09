@@ -59,7 +59,7 @@ better suited to normal use.
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
 %patch16 -b .ia64 -p1
-%patch17 -b .header .p1
+%patch17 -b .header -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
