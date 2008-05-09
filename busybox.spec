@@ -1,22 +1,20 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.9.1
+Version: 1.10.1
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-petitboot.config
-Patch: busybox-1.5.1-static.patch
-Patch1: busybox-1.5.1-anaconda.patch
+Patch: busybox-1.10.1-static.patch
+Patch1: busybox-1.10.1-anaconda.patch
 Patch4: busybox-1.2.0-ppc64.patch
 Patch11: busybox-1.2.2-iptunnel.patch
 Patch12: busybox-1.2.2-ls.patch
 Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.9.0-msh.patch
-Patch15: busybox-1.9.0-gc-section.patch
-Patch16: busybox-1.9.0-hwclock.patch
-Patch17: busybox-1.9.1-headers.patch
+Patch16: busybox-1.10.1-hwclock.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -59,9 +57,7 @@ better suited to normal use.
 %patch11 -b .iptunnel -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
-%patch15 -b .sect -p1
 %patch16 -b .ia64 -p1
-%patch17 -b .head -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -73,7 +69,6 @@ cp busybox busybox-static
 make clean
 # revert the static patches
 patch -R -p1 <%{PATCH0}
-patch -R -p1 <%{PATCH15}
 # applied anaconda patch
 patch -b --suffix .anaconda -p1 < %{PATCH1}
 make defconfig
@@ -115,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Thu May  9 2008 Ivana Varekova <varekova@redhat.com> - 1:1.10.1-1
+- update to 1.10.1
+
 * Thu Feb 14 2008 Ivana Varekova <varekova@redhat.com> - 1:1.9.1-1
 - update to 1.9.1
 - fix a problem with netfilter.h - thanks dwmw2
