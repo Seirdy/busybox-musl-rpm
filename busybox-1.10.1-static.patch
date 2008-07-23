@@ -1,6 +1,6 @@
-diff -up busybox-1.10.1/scripts/defconfig.pom busybox-1.10.1/scripts/defconfig
---- busybox-1.10.1/scripts/defconfig.pom	2008-05-09 10:48:54.000000000 +0200
-+++ busybox-1.10.1/scripts/defconfig	2008-05-09 10:54:30.000000000 +0200
+diff -up busybox-1.10.3/scripts/defconfig.static busybox-1.10.3/scripts/defconfig
+--- busybox-1.10.3/scripts/defconfig.static	2008-04-19 05:50:27.000000000 +0200
++++ busybox-1.10.3/scripts/defconfig	2008-07-23 15:26:28.000000000 +0200
 @@ -38,7 +38,7 @@ CONFIG_FEATURE_HAVE_RPC=y
  #
  # Build Options
@@ -28,3 +28,12 @@ diff -up busybox-1.10.1/scripts/defconfig.pom busybox-1.10.1/scripts/defconfig
  CONFIG_FDFORMAT=y
  CONFIG_FDISK=y
  CONFIG_FDISK_SUPPORT_LARGE_DISKS=y
+@@ -460,7 +460,7 @@ CONFIG_FEATURE_FDISK_WRITABLE=y
+ # CONFIG_FEATURE_SUN_LABEL is not set
+ # CONFIG_FEATURE_OSF_LABEL is not set
+ CONFIG_FEATURE_FDISK_ADVANCED=y
+-# CONFIG_FINDFS is not set
++CONFIG_FINDFS=y
+ CONFIG_FREERAMDISK=y
+ CONFIG_FSCK_MINIX=y
+ CONFIG_MKFS_MINIX=y

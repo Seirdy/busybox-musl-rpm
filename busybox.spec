@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.10.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -112,6 +112,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Wed Jul 23 2008 Ivana Varekova <varekova@redhat.com> - 1:1.10.3-2
+- add findfs to static version of busybox 
+  (kexec-tools need it #455998)
+
 * Tue Jun 10 2008 Ivana Varekova <varekova@redhat.com> - 1:1.10.3-1
 - update to 1.10.3
 
