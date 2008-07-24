@@ -70,7 +70,7 @@ cp busybox busybox-static
 # create busybox optimized for anaconda 
 make clean
 # revert the static patches
-patch -R -p1 <%{PATCH0}
+patch -R -p1 <%{PATCH}
 # applied anaconda patch
 patch -b --suffix .anaconda -p1 < %{PATCH1}
 make defconfig
