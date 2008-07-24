@@ -1,10 +1,11 @@
---- busybox-1.2.2/networking/libiproute/iptunnel.c.pom	2006-07-01 00:42:02.000000000 +0200
-+++ busybox-1.2.2/networking/libiproute/iptunnel.c	2007-01-22 13:42:10.000000000 +0100
-@@ -29,6 +29,7 @@
+diff -up busybox-1.10.3/networking/libiproute/iptunnel.c.iptunnel busybox-1.10.3/networking/libiproute/iptunnel.c
+--- busybox-1.10.3/networking/libiproute/iptunnel.c.iptunnel	2008-04-19 05:50:26.000000000 +0200
++++ busybox-1.10.3/networking/libiproute/iptunnel.c	2008-07-24 09:34:44.000000000 +0200
+@@ -21,6 +21,7 @@
  #ifndef __constant_htons
  #define __constant_htons htons
  #endif
 +#include <linux/types.h>
  #include <linux/if_tunnel.h>
  
- #include "rt_names.h"
+ #include "ip_common.h"  /* #include "libbb.h" is inside */
