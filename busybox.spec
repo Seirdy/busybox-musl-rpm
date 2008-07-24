@@ -7,7 +7,7 @@ License: GPLv2
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-petitboot.config
-Patch: busybox-1.10.1-static.patch
+Patch0: busybox-1.10.1-static.patch
 Patch1: busybox-1.10.1-anaconda.patch
 Patch4: busybox-1.2.0-ppc64.patch
 Patch11: busybox-1.2.2-iptunnel.patch
@@ -54,7 +54,7 @@ better suited to normal use.
 %prep
 %setup -q
 %patch13 -b .clean -p1
-%patch -b .static -p1
+%patch0 -b .static -p1
 %patch11 -b .iptunnel -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
@@ -70,7 +70,7 @@ cp busybox busybox-static
 # create busybox optimized for anaconda 
 make clean
 # revert the static patches
-patch -R -p1 <%{PATCH}
+patch -R -p1 <%{PATCH0}
 # applied anaconda patch
 patch -b --suffix .anaconda -p1 < %{PATCH1}
 make defconfig
