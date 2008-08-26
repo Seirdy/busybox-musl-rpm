@@ -1,0 +1,26 @@
+diff -up busybox-1.10.3/scripts/defconfig.ff busybox-1.10.3/scripts/defconfig
+--- busybox-1.10.3/scripts/defconfig.ff	2008-08-26 14:09:49.000000000 +0200
++++ busybox-1.10.3/scripts/defconfig	2008-08-26 14:12:30.000000000 +0200
+@@ -488,8 +488,8 @@ CONFIG_MKSWAP=y
+ CONFIG_FEATURE_MKSWAP_V0=y
+ CONFIG_MORE=y
+ CONFIG_FEATURE_USE_TERMIOS=y
+-# CONFIG_VOLUMEID is not set
+-# CONFIG_FEATURE_VOLUMEID_EXT is not set
++CONFIG_VOLUMEID=y
++CONFIG_FEATURE_VOLUMEID_EXT=y
+ # CONFIG_FEATURE_VOLUMEID_REISERFS is not set
+ # CONFIG_FEATURE_VOLUMEID_FAT is not set
+ # CONFIG_FEATURE_VOLUMEID_HFS is not set
+diff -up busybox-1.10.3/include/applets.h.ff busybox-1.10.3/include/applets.h
+--- busybox-1.10.3/include/applets.h.ff	2008-04-19 05:50:36.000000000 +0200
++++ busybox-1.10.3/include/applets.h	2008-08-26 14:09:49.000000000 +0200
+@@ -155,7 +155,7 @@ USE_FDISK(APPLET(fdisk, _BB_DIR_SBIN, _B
+ USE_FETCHMAIL(APPLET_ODDNAME(fetchmail, sendgetmail, _BB_DIR_USR_BIN, _BB_SUID_NEVER, fetchmail))
+ USE_FEATURE_GREP_FGREP_ALIAS(APPLET_NOUSAGE(fgrep, grep, _BB_DIR_BIN, _BB_SUID_NEVER))
+ USE_FIND(APPLET_NOEXEC(find, find, _BB_DIR_USR_BIN, _BB_SUID_NEVER, find))
+-USE_FINDFS(APPLET(findfs, _BB_DIR_SBIN, _BB_SUID_NEVER))
++USE_FINDFS(APPLET(findfs, _BB_DIR_SBIN, _BB_SUID_MAYBE))
+ USE_FOLD(APPLET(fold, _BB_DIR_USR_BIN, _BB_SUID_NEVER))
+ USE_FREE(APPLET(free, _BB_DIR_USR_BIN, _BB_SUID_NEVER))
+ USE_FREERAMDISK(APPLET(freeramdisk, _BB_DIR_SBIN, _BB_SUID_NEVER))

@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.10.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -16,6 +16,7 @@ Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.9.0-msh.patch
 Patch16: busybox-1.10.1-hwclock.patch
 Patch17: busybox-1.10.1-headers.patch
+Patch18: busybox-1.10.3-findfs.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -60,13 +61,13 @@ better suited to normal use.
 %patch14 -b .msh -p1
 %patch16 -b .ia64 -p1
 %patch17 -b .header -p1
+%patch18 -b .ff -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
 make defconfig
 make CC="gcc $RPM_OPT_FLAGS"
 cp busybox busybox-static
-
 # create busybox optimized for anaconda 
 make clean
 # revert the static patches
@@ -112,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Tue Aug 26 2008 Ivana Varekova <varekova@redhat.com> - 1:1.10.3-3
+- fix findfs problem - #455998
+
 * Wed Jul 23 2008 Ivana Varekova <varekova@redhat.com> - 1:1.10.3-2
 - add findfs to static version of busybox 
   (kexec-tools need it #455998)
