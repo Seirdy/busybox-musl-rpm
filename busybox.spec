@@ -1,21 +1,20 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.10.3
-Release: 3%{?dist}
+Version: 1.12.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-petitboot.config
-Patch0: busybox-1.10.1-static.patch
-Patch1: busybox-1.10.1-anaconda.patch
+Patch0: busybox-1.12.1-static.patch
+Patch1: busybox-1.12.1-anaconda.patch
 Patch4: busybox-1.2.0-ppc64.patch
 Patch11: busybox-1.2.2-iptunnel.patch
 Patch12: busybox-1.2.2-ls.patch
-Patch13: busybox-1.5.1-clean.patch
 Patch14: busybox-1.9.0-msh.patch
 Patch16: busybox-1.10.1-hwclock.patch
-Patch17: busybox-1.10.1-headers.patch
+#Patch17: busybox-1.10.1-headers.patch
 Patch18: busybox-1.10.3-findfs.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
@@ -54,13 +53,12 @@ better suited to normal use.
 
 %prep
 %setup -q
-%patch13 -b .clean -p1
 %patch0 -b .static -p1
 %patch11 -b .iptunnel -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
 %patch16 -b .ia64 -p1
-%patch17 -b .header -p1
+#%patch17 -b .header -p1
 %patch18 -b .ff -p1
 
 %build
@@ -113,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Mon Nov 10 2008 Ivana Varekova <varekova@redhat.com> - 1:1.12.1-1
+- update to 1.12.1
+
 * Tue Aug 26 2008 Ivana Varekova <varekova@redhat.com> - 1:1.10.3-3
 - fix findfs problem - #455998
 
