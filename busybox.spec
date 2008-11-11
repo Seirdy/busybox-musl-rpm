@@ -16,6 +16,7 @@ Patch14: busybox-1.9.0-msh.patch
 Patch16: busybox-1.10.1-hwclock.patch
 #Patch17: busybox-1.10.1-headers.patch
 Patch18: busybox-1.10.3-findfs.patch
+Patch19: busybox-1.12.1-headers.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -60,6 +61,7 @@ better suited to normal use.
 %patch16 -b .ia64 -p1
 #%patch17 -b .header -p1
 %patch18 -b .ff -p1
+%patch19 -b .kh -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
