@@ -56,7 +56,7 @@ better suited to normal use.
 %prep
 %setup -q
 %patch0 -b .static -p1
-%patch11 -b .iptunnel -p1
+%patch11 -b .head -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
 %patch16 -b .ia64 -p1
