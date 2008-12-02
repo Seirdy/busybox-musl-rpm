@@ -22,6 +22,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
 BuildRequires: libselinux-static
+BuildRequires: libsepol-static
 
 %define debug_package %{nil}  
 
