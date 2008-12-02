@@ -1,0 +1,12 @@
+diff -up busybox-1.12.1/scripts/defconfig.selinux busybox-1.12.1/scripts/defconfig
+--- busybox-1.12.1/scripts/defconfig.selinux	2008-12-02 12:55:58.000000000 +0100
++++ busybox-1.12.1/scripts/defconfig	2008-12-02 13:06:28.000000000 +0100
+@@ -30,7 +30,7 @@ CONFIG_FEATURE_PIDFILE=y
+ CONFIG_FEATURE_SUID=y
+ CONFIG_FEATURE_SUID_CONFIG=y
+ CONFIG_FEATURE_SUID_CONFIG_QUIET=y
+-# CONFIG_SELINUX is not set
++CONFIG_SELINUX=y
+ # CONFIG_FEATURE_PREFER_APPLETS is not set
+ CONFIG_BUSYBOX_EXEC_PATH="/proc/self/exe"
+ CONFIG_FEATURE_SYSLOG=y
