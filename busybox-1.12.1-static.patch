@@ -1,7 +1,7 @@
-diff -up busybox-1.12.1/scripts/defconfig.pom busybox-1.12.1/scripts/defconfig
---- busybox-1.12.1/scripts/defconfig.pom	2008-09-28 20:04:12.000000000 +0200
-+++ busybox-1.12.1/scripts/defconfig	2008-11-10 13:15:04.000000000 +0100
-@@ -39,7 +39,7 @@ CONFIG_FEATURE_HAVE_RPC=y
+diff -up busybox-1.13.2/scripts/defconfig.pom busybox-1.13.2/scripts/defconfig
+--- busybox-1.13.2/scripts/defconfig.pom	2008-11-09 18:28:00.000000000 +0100
++++ busybox-1.13.2/scripts/defconfig	2009-01-19 09:29:33.000000000 +0100
+@@ -41,7 +41,7 @@ CONFIG_FEATURE_HAVE_RPC=y
  #
  # Build Options
  #
@@ -10,7 +10,7 @@ diff -up busybox-1.12.1/scripts/defconfig.pom busybox-1.12.1/scripts/defconfig
  # CONFIG_PIE is not set
  # CONFIG_NOMMU is not set
  # CONFIG_BUILD_LIBBUSYBOX is not set
-@@ -185,7 +185,7 @@ CONFIG_FEATURE_LS_RECURSIVE=y
+@@ -186,7 +186,7 @@ CONFIG_FEATURE_LS_RECURSIVE=y
  CONFIG_FEATURE_LS_SORTFILES=y
  CONFIG_FEATURE_LS_TIMESTAMPS=y
  CONFIG_FEATURE_LS_USERNAME=y
@@ -19,7 +19,7 @@ diff -up busybox-1.12.1/scripts/defconfig.pom busybox-1.12.1/scripts/defconfig
  CONFIG_FEATURE_LS_COLOR_IS_DEFAULT=y
  CONFIG_MD5SUM=y
  CONFIG_MKDIR=y
-@@ -456,7 +456,7 @@ CONFIG_FEATURE_DMESG_PRETTY=y
+@@ -459,7 +459,7 @@ CONFIG_FEATURE_DMESG_PRETTY=y
  CONFIG_FBSET=y
  CONFIG_FEATURE_FBSET_FANCY=y
  CONFIG_FEATURE_FBSET_READMODE=y
@@ -28,12 +28,3 @@ diff -up busybox-1.12.1/scripts/defconfig.pom busybox-1.12.1/scripts/defconfig
  CONFIG_FDFORMAT=y
  CONFIG_FDISK=y
  CONFIG_FDISK_SUPPORT_LARGE_DISKS=y
-@@ -466,7 +466,7 @@ CONFIG_FEATURE_FDISK_WRITABLE=y
- # CONFIG_FEATURE_SUN_LABEL is not set
- # CONFIG_FEATURE_OSF_LABEL is not set
- CONFIG_FEATURE_FDISK_ADVANCED=y
--# CONFIG_FINDFS is not set
-+CONFIG_FINDFS=y
- CONFIG_FREERAMDISK=y
- CONFIG_FSCK_MINIX=y
- CONFIG_MKFS_MINIX=y

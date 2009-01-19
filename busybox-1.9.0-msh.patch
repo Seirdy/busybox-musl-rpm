@@ -1,7 +1,7 @@
-diff -up busybox-1.12.1/scripts/defconfig.msh busybox-1.12.1/scripts/defconfig
---- busybox-1.12.1/scripts/defconfig.msh	2008-11-10 14:41:55.000000000 +0100
-+++ busybox-1.12.1/scripts/defconfig	2008-11-10 14:41:55.000000000 +0100
-@@ -761,7 +761,7 @@ CONFIG_WATCH=y
+diff -up busybox-1.13.2/scripts/defconfig.pom busybox-1.13.2/scripts/defconfig
+--- busybox-1.13.2/scripts/defconfig.pom	2009-01-19 09:57:35.000000000 +0100
++++ busybox-1.13.2/scripts/defconfig	2009-01-19 09:58:53.000000000 +0100
+@@ -818,7 +818,7 @@ CONFIG_SOFTLIMIT=y
  #
  CONFIG_FEATURE_SH_IS_ASH=y
  # CONFIG_FEATURE_SH_IS_HUSH is not set
@@ -10,12 +10,3 @@ diff -up busybox-1.12.1/scripts/defconfig.msh busybox-1.12.1/scripts/defconfig
  # CONFIG_FEATURE_SH_IS_NONE is not set
  CONFIG_ASH=y
  
-@@ -793,7 +793,7 @@ CONFIG_ASH_RANDOM_SUPPORT=y
- # CONFIG_HUSH_LOOPS is not set
- # CONFIG_HUSH_CASE is not set
- # CONFIG_LASH is not set
--# CONFIG_MSH is not set
-+CONFIG_MSH=y
- 
- #
- # Bourne Shell Options

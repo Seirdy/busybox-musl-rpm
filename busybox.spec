@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.12.1
-Release: 2%{?dist}
+Version: 1.13.2
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -10,12 +10,9 @@ Source1: busybox-petitboot.config
 Patch0: busybox-1.12.1-static.patch
 Patch1: busybox-1.12.1-anaconda.patch
 Patch4: busybox-1.2.0-ppc64.patch
-Patch11: busybox-1.2.2-iptunnel.patch
 Patch12: busybox-1.2.2-ls.patch
 Patch14: busybox-1.9.0-msh.patch
 Patch16: busybox-1.10.1-hwclock.patch
-Patch18: busybox-1.10.3-findfs.patch
-Patch19: busybox-1.12.1-headers.patch
 Patch20: busybox-1.12.1-selinux.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
@@ -57,12 +54,9 @@ better suited to normal use.
 %prep
 %setup -q
 %patch0 -b .static -p1
-%patch11 -b .head -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
 %patch16 -b .ia64 -p1
-%patch18 -b .ff -p1
-%patch19 -b .kh -p1
 %patch20 -b .sel -p1
 
 %build
@@ -117,6 +111,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Mon Jan 19 2009 Ivana Varekova <varekova@redhat.com> - 1:1.13.2-1
+- update to 1.13.2
+
 * Tue Dec  2 2008 Ivana Varekova <varekova@redhat.com> - 1:1.12.1-2
 - enable selinux in static version of busybox (#462724)
 
