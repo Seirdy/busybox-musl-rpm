@@ -1,19 +1,21 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.13.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-petitboot.config
+Source2: http://www.uclibc.org/downloads/uClibc-0.9.30.tar.bz2
+Source3: uClibc.config
 Patch0: busybox-1.12.1-static.patch
 Patch1: busybox-1.12.1-anaconda.patch
-Patch4: busybox-1.2.0-ppc64.patch
 Patch12: busybox-1.2.2-ls.patch
 Patch14: busybox-1.9.0-msh.patch
 Patch16: busybox-1.10.1-hwclock.patch
 Patch20: busybox-1.12.1-selinux.patch
+Patch21: uClibc-0.9.30.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -52,17 +54,54 @@ bootloader used on PlayStation 3. The busybox package provides a binary
 better suited to normal use.
 
 %prep
-%setup -q
+%setup -q -a2
 %patch0 -b .static -p1
 %patch12 -b .ls -p1
 %patch14 -b .msh -p1
 %patch16 -b .ia64 -p1
 %patch20 -b .sel -p1
+cat %{SOURCE3} >uClibc-0.9.30/.config1
+%patch21 -b .orig -p0
+
 
 %build
 # create static busybox - the executable is kept as busybox-static
+# We use uclibc instead of system glibc, uclibc is several times
+# smaller, this is important for static build.
+# Build uclibc first.
+cd uClibc-0.9.30
+# fixme:
+mkdir kernel-include
+cp -a /usr/include/asm kernel-include
+cp -a /usr/include/asm-generic kernel-include
+cp -a /usr/include/linux kernel-include
+# uclibc can't be built on ppc64, we set $arch to "" in this case
+arch=`uname -m | sed -e 's/i.86/i386/' -e 's/ppc/powerpc/' -e 's/ppc64//' -e 's/powerpc64//'`
+echo "TARGET_$arch=y" >.config
+echo "TARGET_ARCH=\"$arch\"" >>.config
+cat .config1 >>.config
+if test "$arch"; then yes "" | make oldconfig; fi
+if test "$arch"; then cat .config; fi
+if test "$arch"; then make V=1; fi
+if test "$arch"; then make install; fi
+if test "$arch"; then make install_kernel_headers; fi
+cd ..
+# we are back in busybox-NN.MM dir now
 make defconfig
-make CC="gcc $RPM_OPT_FLAGS"
+# gcc needs to be convinced to use neither system headers, nor libs,
+# nor startfiles (i.e. crtXXX.o files)
+if test "$arch"; then \
+    mv .config .config1 && \
+    grep -v ^CONFIG_SELINUX .config1 >.config && \
+    yes "" | make oldconfig && \
+    cat .config && \
+    make V=1 \
+        EXTRA_CFLAGS="-isystem uClibc-0.9.30/installed/include" \
+        CFLAGS_busybox="-static -nostartfiles -LuClibc-0.9.30/installed/lib uClibc-0.9.30/installed/lib/crt1.o uClibc-0.9.30/installed/lib/crti.o uClibc-0.9.30/installed/lib/crtn.o"; \
+else \
+    cat .config && \
+    make V=1 CC="gcc $RPM_OPT_FLAGS"; \
+fi
 cp busybox busybox-static
 # create busybox optimized for anaconda 
 make clean
@@ -96,21 +135,24 @@ install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
 %defattr(-,root,root,-)
+%doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
 /sbin/busybox
 
 %files anaconda
-%doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
 %defattr(-,root,root,-)
+%doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
 /sbin/busybox.anaconda
 
 %files petitboot
-%doc LICENSE 
 %defattr(-,root,root,-)
+%doc LICENSE
 /sbin/busybox.petitboot
 
 %changelog
+* Mon Feb  9 2009 Ivana Varekova <varekova@redhat.com> - 1:1.13.2-2
+- use uClibc nstead of glibc for static build - thanks Denys Vlasenko
+
 * Mon Jan 19 2009 Ivana Varekova <varekova@redhat.com> - 1:1.13.2-1
 - update to 1.13.2
 
