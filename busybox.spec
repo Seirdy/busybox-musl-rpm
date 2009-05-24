@@ -1,13 +1,13 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.13.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-petitboot.config
-Source2: http://www.uclibc.org/downloads/uClibc-0.9.30.tar.bz2
+Source2: http://www.uclibc.org/downloads/uClibc-0.9.30.1.tar.bz2
 Source3: uClibc.config
 Patch0: busybox-1.12.1-static.patch
 Patch1: busybox-1.12.1-anaconda.patch
@@ -15,13 +15,16 @@ Patch12: busybox-1.2.2-ls.patch
 Patch14: busybox-1.9.0-msh.patch
 Patch16: busybox-1.10.1-hwclock.patch
 Patch20: busybox-1.12.1-selinux.patch
-Patch21: uClibc-0.9.30.patch
+# patch to avoid conflicts with getline() from stdio.h, already present in upstream VCS
+Patch22: uClibc-0.9.30.1-getline.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
 BuildRequires: libselinux-static
 BuildRequires: libsepol-static
+# see https://bugzilla.redhat.com/show_bug.cgi?id=502331
+ExcludeArch: ppc64
 
 %define debug_package %{nil}  
 
@@ -60,16 +63,15 @@ better suited to normal use.
 %patch14 -b .msh -p1
 %patch16 -b .ia64 -p1
 %patch20 -b .sel -p1
-cat %{SOURCE3} >uClibc-0.9.30/.config1
-%patch21 -b .orig -p0
-
+cat %{SOURCE3} >uClibc-0.9.30.1/.config1
+%patch22 -b .getline -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
 # We use uclibc instead of system glibc, uclibc is several times
 # smaller, this is important for static build.
 # Build uclibc first.
-cd uClibc-0.9.30
+cd uClibc-0.9.30.1
 # fixme:
 mkdir kernel-include
 cp -a /usr/include/asm kernel-include
@@ -96,8 +98,8 @@ if test "$arch"; then \
     yes "" | make oldconfig && \
     cat .config && \
     make V=1 \
-        EXTRA_CFLAGS="-isystem uClibc-0.9.30/installed/include" \
-        CFLAGS_busybox="-static -nostartfiles -LuClibc-0.9.30/installed/lib uClibc-0.9.30/installed/lib/crt1.o uClibc-0.9.30/installed/lib/crti.o uClibc-0.9.30/installed/lib/crtn.o"; \
+        EXTRA_CFLAGS="-isystem uClibc-0.9.30.1/installed/include" \
+        CFLAGS_busybox="-static -nostartfiles -LuClibc-0.9.30.1/installed/lib uClibc-0.9.30.1/installed/lib/crt1.o uClibc-0.9.30.1/installed/lib/crti.o uClibc-0.9.30.1/installed/lib/crtn.o"; \
 else \
     cat .config && \
     make V=1 CC="gcc $RPM_OPT_FLAGS"; \
@@ -150,11 +152,19 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Sun May 24 2009 Milos Jakubicek <xjakub@fi.muni.cz> - 1:1.13.2-4
+- Fixing FTBFS on i586/x86_64/ppc, ppc64 still an issue:
+- Updated uClibc to 0.9.30.1, subsequently:
+- Removed uClibc-0.9.30 patch (merged upstream).
+- Added uClibc-0.9.30.1-getline.patch -- prevents conflicts with getline()
+  from stdio.h
+- Temporarily disable C99 math to bypass ppc bug, see https://bugs.uclibc.org/show_bug.cgi?id=55
+
 * Mon Feb 23 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.13.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
 * Mon Feb  9 2009 Ivana Varekova <varekova@redhat.com> - 1:1.13.2-2
-- use uClibc nstead of glibc for static build - thanks Denys Vlasenko
+- use uClibc instead of glibc for static build - thanks Denys Vlasenko
 
 * Mon Jan 19 2009 Ivana Varekova <varekova@redhat.com> - 1:1.13.2-1
 - update to 1.13.2
