@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.13.2
-Release: 4%{?dist}
+Version: 1.14.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -23,10 +23,9 @@ BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
 BuildRequires: libselinux-static
 BuildRequires: libsepol-static
-# see https://bugzilla.redhat.com/show_bug.cgi?id=502331
-ExcludeArch: ppc64
+BuildRequires: glibc-static
 
-%define debug_package %{nil}  
+%define debug_package %{nil}
 
 %package anaconda
 Group: System Environment/Shells
@@ -152,6 +151,10 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Thu May 28 2009 Ivana Varekova <varekova@redhat.com> - 1:1.14.1-1
+- fix ppc problem
+- update to 1.14.1
+
 * Sun May 24 2009 Milos Jakubicek <xjakub@fi.muni.cz> - 1:1.13.2-4
 - Fixing FTBFS on i586/x86_64/ppc, ppc64 still an issue:
 - Updated uClibc to 0.9.30.1, subsequently:
