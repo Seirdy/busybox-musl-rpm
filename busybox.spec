@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.14.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -17,6 +17,7 @@ Patch16: busybox-1.10.1-hwclock.patch
 Patch20: busybox-1.12.1-selinux.patch
 # patch to avoid conflicts with getline() from stdio.h, already present in upstream VCS
 Patch22: uClibc-0.9.30.1-getline.patch
+Patch23: busybox-1.14.1-readlink.patch
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -64,6 +65,7 @@ better suited to normal use.
 %patch20 -b .sel -p1
 cat %{SOURCE3} >uClibc-0.9.30.1/.config1
 %patch22 -b .getline -p1
+%patch23 -b .opt -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -151,6 +153,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Fri Jun 12 2009 Ivana Varekova <varekova@redhat.com> - 1:1.14.1-2
+- add new options to readlink - patch created by Denys Valsenko
+
 * Thu May 28 2009 Ivana Varekova <varekova@redhat.com> - 1:1.14.1-1
 - fix ppc problem
 - update to 1.14.1
