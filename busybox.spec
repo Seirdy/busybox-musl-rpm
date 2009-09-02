@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.14.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -10,7 +10,6 @@ Source1: busybox-petitboot.config
 Source2: http://www.uclibc.org/downloads/uClibc-0.9.30.1.tar.bz2
 Source3: uClibc.config
 Patch0: busybox-1.12.1-static.patch
-Patch1: busybox-1.12.1-anaconda.patch
 Patch12: busybox-1.2.2-ls.patch
 Patch14: busybox-1.9.0-msh.patch
 Patch16: busybox-1.10.1-hwclock.patch
@@ -18,6 +17,7 @@ Patch20: busybox-1.12.1-selinux.patch
 # patch to avoid conflicts with getline() from stdio.h, already present in upstream VCS
 Patch22: uClibc-0.9.30.1-getline.patch
 Patch23: busybox-1.14.1-readlink.patch
+Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -28,10 +28,6 @@ BuildRequires: glibc-static
 
 %define debug_package %{nil}
 
-%package anaconda
-Group: System Environment/Shells
-Summary: Version of busybox configured for use with anaconda
-
 %package petitboot
 Group: System Environment/Shells
 Summary: Version of busybox configured for use with petitboot
@@ -41,13 +37,6 @@ Busybox is a single binary which includes versions of a large number
 of system commands, including a shell.  This package can be very
 useful for recovering from certain types of system failures,
 particularly those involving broken shared libraries.
-
-%description anaconda
-Busybox is a single binary which includes versions of a large number
-of system commands, including a shell.  The version contained in this
-package is designed for use with the Red Hat installation program,
-anaconda. The busybox package provides a binary better suited to
-normal use.
 
 %description petitboot
 Busybox is a single binary which includes versions of a large number
@@ -106,17 +95,6 @@ else \
     make V=1 CC="gcc $RPM_OPT_FLAGS"; \
 fi
 cp busybox busybox-static
-# create busybox optimized for anaconda 
-make clean
-#revert selinux patch
-patch -R -p1 <%{PATCH20}
-# revert the static patches
-patch -R -p1 <%{PATCH0}
-# applied anaconda patch
-patch -b --suffix .anaconda -p1 < %{PATCH1}
-make defconfig
-make CONFIG_DEBUG=y CC="gcc $RPM_OPT_FLAGS"
-cp busybox busybox.anaconda
 
 # create busybox optimized for petitboot
 make clean
@@ -131,7 +109,6 @@ cp busybox busybox.petitboot
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/sbin
 install -m 755 busybox-static $RPM_BUILD_ROOT/sbin/busybox
-install -m 755 busybox.anaconda $RPM_BUILD_ROOT/sbin/busybox.anaconda
 install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
 
 %clean
@@ -142,17 +119,15 @@ rm -rf $RPM_BUILD_ROOT
 %doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
 /sbin/busybox
 
-%files anaconda
-%defattr(-,root,root,-)
-%doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
-/sbin/busybox.anaconda
-
 %files petitboot
 %defattr(-,root,root,-)
 %doc LICENSE
 /sbin/busybox.petitboot
 
 %changelog
+* Wed Sep 02 2009 Chris Lumens <clumens@redhat.com> 1.14.1-4
+- Remove busybox-anaconda (#514319).
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.14.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
