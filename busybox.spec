@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.14.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -67,8 +67,8 @@ mkdir kernel-include
 cp -a /usr/include/asm kernel-include
 cp -a /usr/include/asm-generic kernel-include
 cp -a /usr/include/linux kernel-include
-# uclibc can't be built on ppc64, we set $arch to "" in this case
-arch=`uname -m | sed -e 's/i.86/i386/' -e 's/ppc/powerpc/' -e 's/ppc64//' -e 's/powerpc64//'`
+# uclibc can't be built on ppc64,s390,ia64, we set $arch to "" in this case
+arch=`uname -m | sed -e 's/i.86/i386/' -e 's/ppc/powerpc/' -e 's/ppc64//' -e 's/powerpc64//' -e 's/ia64//' -e 's/s390.*//'`
 echo "TARGET_$arch=y" >.config
 echo "TARGET_ARCH=\"$arch\"" >>.config
 cat .config1 >>.config
@@ -125,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Fri Sep 11 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.14.1-6
+- REALLY fix build on s390, ia64
+
 * Fri Sep 11 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.14.1-5
 - fix build on s390, ia64
 
