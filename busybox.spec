@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.14.1
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -19,7 +19,7 @@ Patch22: uClibc-0.9.30.1-getline.patch
 Patch23: busybox-1.14.1-readlink.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)  
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
 BuildRequires: libselinux-static
@@ -32,7 +32,7 @@ BuildRequires: glibc-static
 Group: System Environment/Shells
 Summary: Version of busybox configured for use with petitboot
 
-%description 
+%description
 Busybox is a single binary which includes versions of a large number
 of system commands, including a shell.  This package can be very
 useful for recovering from certain types of system failures,
@@ -125,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Fri Sep 11 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.14.1-5
+- fix build on s390, ia64
+
 * Wed Sep 02 2009 Chris Lumens <clumens@redhat.com> 1.14.1-4
 - Remove busybox-anaconda (#514319).
 
