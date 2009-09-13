@@ -1,22 +1,18 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.14.1
-Release: 6%{?dist}
+Version: 1.15.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
-Source1: busybox-petitboot.config
-Source2: http://www.uclibc.org/downloads/uClibc-0.9.30.1.tar.bz2
-Source3: uClibc.config
-Patch0: busybox-1.12.1-static.patch
-Patch12: busybox-1.2.2-ls.patch
-Patch14: busybox-1.9.0-msh.patch
+Source1: busybox-static.config
+Source2: busybox-petitboot.config
+Source3: http://www.uclibc.org/downloads/uClibc-0.9.30.1.tar.bz2
+Source4: uClibc.config
 Patch16: busybox-1.10.1-hwclock.patch
-Patch20: busybox-1.12.1-selinux.patch
 # patch to avoid conflicts with getline() from stdio.h, already present in upstream VCS
 Patch22: uClibc-0.9.30.1-getline.patch
-Patch23: busybox-1.14.1-readlink.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -46,15 +42,10 @@ bootloader used on PlayStation 3. The busybox package provides a binary
 better suited to normal use.
 
 %prep
-%setup -q -a2
-%patch0 -b .static -p1
-%patch12 -b .ls -p1
-%patch14 -b .msh -p1
+%setup -q -a3
 %patch16 -b .ia64 -p1
-%patch20 -b .sel -p1
-cat %{SOURCE3} >uClibc-0.9.30.1/.config1
+cat %{SOURCE4} >uClibc-0.9.30.1/.config1
 %patch22 -b .getline -p1
-%patch23 -b .opt -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -79,7 +70,9 @@ if test "$arch"; then make install; fi
 if test "$arch"; then make install_kernel_headers; fi
 cd ..
 # we are back in busybox-NN.MM dir now
-make defconfig
+cp %{SOURCE1} .config
+# set all new options to defaults
+yes "" | make oldconfig
 # gcc needs to be convinced to use neither system headers, nor libs,
 # nor startfiles (i.e. crtXXX.o files)
 if test "$arch"; then \
@@ -94,21 +87,21 @@ else \
     cat .config && \
     make V=1 CC="gcc $RPM_OPT_FLAGS"; \
 fi
-cp busybox busybox-static
+cp busybox busybox.static
 
 # create busybox optimized for petitboot
 make clean
 # copy new configuration file
-cp %{SOURCE1} .config
-# .config file has to be recreated to the new format
+cp %{SOURCE2} .config
+# set all new options to defaults
 yes "" | make oldconfig
-make CC="%__cc $RPM_OPT_FLAGS"
+make V=1 CC="%__cc $RPM_OPT_FLAGS"
 cp busybox busybox.petitboot
 
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/sbin
-install -m 755 busybox-static $RPM_BUILD_ROOT/sbin/busybox
+install -m 755 busybox.static $RPM_BUILD_ROOT/sbin/busybox
 install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
 
 %clean
@@ -116,7 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc LICENSE docs/busybox.net/*.html docs/busybox.net/images/*
+%doc LICENSE docs/busybox.net/*.html
 /sbin/busybox
 
 %files petitboot
@@ -125,6 +118,9 @@ rm -rf $RPM_BUILD_ROOT
 /sbin/busybox.petitboot
 
 %changelog
+* Sun Sep 13 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-1
+- Rebase to 1.15.1
+
 * Fri Sep 11 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.14.1-6
 - REALLY fix build on s390, ia64
 
