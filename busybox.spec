@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.15.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -13,6 +13,7 @@ Source4: uClibc.config
 Patch16: busybox-1.10.1-hwclock.patch
 # patch to avoid conflicts with getline() from stdio.h, already present in upstream VCS
 Patch22: uClibc-0.9.30.1-getline.patch
+Patch23: busybox-1.15.1-man.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -46,6 +47,7 @@ better suited to normal use.
 %patch16 -b .ia64 -p1
 cat %{SOURCE4} >uClibc-0.9.30.1/.config1
 %patch22 -b .getline -p1
+%patch23 -b .man -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -88,6 +90,7 @@ else \
     make V=1 CC="gcc $RPM_OPT_FLAGS"; \
 fi
 cp busybox busybox.static
+cp docs/BusyBox.1 docs/busybox.static.1
 
 # create busybox optimized for petitboot
 make clean
@@ -97,12 +100,16 @@ cp %{SOURCE2} .config
 yes "" | make oldconfig
 make V=1 CC="%__cc $RPM_OPT_FLAGS"
 cp busybox busybox.petitboot
+cp docs/BusyBox.1 docs/busybox.petitboot.1
 
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/sbin
 install -m 755 busybox.static $RPM_BUILD_ROOT/sbin/busybox
 install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
+mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
+install -m 644 docs/busybox.static.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
+install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.petitboot.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -111,13 +118,18 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc LICENSE docs/busybox.net/*.html
 /sbin/busybox
+%{_mandir}/man1/busybox.1.gz
 
 %files petitboot
 %defattr(-,root,root,-)
 %doc LICENSE
 /sbin/busybox.petitboot
+%{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Fri Oct  2 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-2
+- add manpage generation (#525658)
+
 * Sun Sep 13 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-1
 - Rebase to 1.15.1
 
