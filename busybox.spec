@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.15.1
-Release: 3%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -14,6 +14,8 @@ Patch16: busybox-1.10.1-hwclock.patch
 # patch to avoid conflicts with getline() from stdio.h, already present in upstream VCS
 Patch22: uClibc-0.9.30.1-getline.patch
 Patch23: busybox-1.15.1-man.patch
+Patch24: uClibc-0.9.30.1-utmp.patch
+Patch25: busybox-1.15.1-uname.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -48,6 +50,8 @@ better suited to normal use.
 cat %{SOURCE4} >uClibc-0.9.30.1/.config1
 %patch22 -b .getline -p1
 %patch23 -b .man -p1
+%patch24 -b .utmp -p1
+%patch25 -b .uname -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -116,17 +120,26 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc LICENSE docs/busybox.net/*.html
+%doc LICENSE README
 /sbin/busybox
 %{_mandir}/man1/busybox.1.gz
 
 %files petitboot
 %defattr(-,root,root,-)
-%doc LICENSE
+%doc LICENSE README
 /sbin/busybox.petitboot
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Wed Feb 24 2010 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-6
+- tweak installed docs
+
+* Wed Jan 27 2010 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-5
+- enable Fedora-specific uname -p behavior (#534081)
+
+* Fri Nov 26 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-4
+- make uclibc use 32-bit compat struct utmp (#541587)
+
 * Fri Nov 10 2009 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-3
 - re-enable rpm applet (#534092)
 
