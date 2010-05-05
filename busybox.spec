@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.15.1
-Release: 6%{?dist}
+Release: 7%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -16,6 +16,7 @@ Patch22: uClibc-0.9.30.1-getline.patch
 Patch23: busybox-1.15.1-man.patch
 Patch24: uClibc-0.9.30.1-utmp.patch
 Patch25: busybox-1.15.1-uname.patch
+Patch26: uClibc-0.9.30.1-etc_localtime.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -52,6 +53,7 @@ cat %{SOURCE4} >uClibc-0.9.30.1/.config1
 %patch23 -b .man -p1
 %patch24 -b .utmp -p1
 %patch25 -b .uname -p1
+%patch26 -b .etc_localtime -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -131,6 +133,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Wed May  5 2010 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-7
+- teach uclibc to use /etc/localtime
+
 * Wed Feb 24 2010 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-6
 - tweak installed docs
 
