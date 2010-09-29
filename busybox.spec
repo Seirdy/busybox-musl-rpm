@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.15.1
-Release: 8%{?dist}
+Release: 9%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -135,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Wed Sep 29 2010 jkeating - 1:1.15.1-9
+- Rebuilt for gcc bug 634757
+
 * Fri Sep 17 2010 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-8
 - fix build system so that it works with make 3.82 too
 
