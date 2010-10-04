@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.15.1
-Release: 9%{?dist}
+Release: 10%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -18,6 +18,7 @@ Patch24: uClibc-0.9.30.1-utmp.patch
 Patch25: busybox-1.15.1-uname.patch
 Patch26: uClibc-0.9.30.1-etc_localtime.patch
 Patch27: busybox-1.15.1-build_system.patch
+Patch28: busybox-1.15.1-man_db.patch
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -56,6 +57,7 @@ cat %{SOURCE4} >uClibc-0.9.30.1/.config1
 %patch25 -b .uname -p1
 %patch26 -b .etc_localtime -p1
 %patch27 -b .build_system -p1
+%patch28 -b .man_db -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -135,6 +137,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon Oct  4 2010 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.15.1-10
+- add compatibility with man-db config file (#639461)
+
 * Wed Sep 29 2010 jkeating - 1:1.15.1-9
 - Rebuilt for gcc bug 634757
 
