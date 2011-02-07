@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.18.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -10,6 +10,17 @@ Source1: busybox-static.config
 Source2: busybox-petitboot.config
 Patch16: busybox-1.10.1-hwclock.patch
 Patch25: busybox-1.15.1-uname.patch
+# Upstream patches from http://busybox.net/downloads/fixes-1.18.2/
+Patch30: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-buildsys.patch
+Patch31: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-hush.patch
+Patch32: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-libbb.patch
+Patch33: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-modprobe-small.patch
+Patch34: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-modprobe.patch
+Patch35: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-ping.patch
+Patch36: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-tar.patch
+Patch37: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-udhcp.patch
+Patch38: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-wc.patch
+
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -45,6 +56,16 @@ better suited to normal use.
 %setup -q
 %patch16 -b .ia64 -p1
 %patch25 -b .uname -p1
+
+%patch30 -p1 -b .buildsys
+%patch31 -p1 -b .hush
+%patch32 -p1 -b .libbb
+%patch33 -p1 -b .modprobe-small
+%patch34 -p1 -b .modprobe
+%patch35 -p1 -b .ping
+%patch36 -p1 -b .tar
+%patch37 -p1 -b .udhcp
+%patch38 -p1 -b .wc
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -113,6 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon Feb  7 2011 Tom Callaway <spot@fedoraproject.org> - 1:1.18.2-2
+- apply fixes from upstream
+
 * Mon Feb  7 2011 Tom Callaway <spot@fedoraproject.org> - 1:1.18.2-1
 - update to 1.18.2
 - use system uClibc
