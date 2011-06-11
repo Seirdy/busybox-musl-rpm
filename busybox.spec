@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.18.2
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -72,7 +72,7 @@ better suited to normal use.
 # We use uclibc instead of system glibc, uclibc is several times
 # smaller, this is important for static build.
 # uclibc can't be built on ppc64,s390,ia64, we set $arch to "" in this case
-arch=`uname -m | sed -e 's/i.86/i386/' -e 's/ppc/powerpc/' -e 's/ppc64//' -e 's/powerpc64//' -e 's/ia64//' -e 's/s390.*//'`
+arch=`uname -m | sed -e 's/i.86/i386/' -e 's/ppc/powerpc/' -e 's/armv7l/arm/' -e 's/armv5tel/arm/' -e 's/ppc64//' -e 's/powerpc64//' -e 's/ia64//' -e 's/s390.*//'`
 cp %{SOURCE1} .config
 # set all new options to defaults
 yes "" | make oldconfig
@@ -134,6 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Sat Jun 11 2011 Peter Robinson <pbrobinson@gmail.com> - 1:1.18.2-4
+- Add support for ARM
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.18.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
