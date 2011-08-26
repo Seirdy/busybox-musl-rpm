@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.18.2
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -134,6 +134,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Fri Aug 26 2011 Daniel Drake <dsd@laptop.org> - 1:1.18.2-5
+- Remove Linux 2.4 support from insmod/modprobe/etc.
+- Fixes build failures on ARM, where such ancient syscalls are not present
+
 * Sat Jun 11 2011 Peter Robinson <pbrobinson@gmail.com> - 1:1.18.2-4
 - Add support for ARM
 
