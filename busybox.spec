@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.18.2
-Release: 5%{?dist}
+Release: 6%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -20,6 +20,9 @@ Patch35: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-ping.patch
 Patch36: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-tar.patch
 Patch37: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-udhcp.patch
 Patch38: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-wc.patch
+# Already-upstream fixes for compiling against Linux 3.0 headers
+Patch40: busybox-sysinfo-1.patch
+Patch41: busybox-sysinfo-2.patch
 
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
@@ -66,6 +69,8 @@ better suited to normal use.
 %patch36 -p1 -b .tar
 %patch37 -p1 -b .udhcp
 %patch38 -p1 -b .wc
+%patch40 -p1 -b .sysinfo1
+%patch41 -p1 -b .sysinfo2
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -134,6 +139,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Sat Aug 27 2011 Daniel Drake <dsd@laptop.org> - 1:1.18.2-6
+- Fix compilation against uClibc and Linux-3.0 headers
+
 * Fri Aug 26 2011 Daniel Drake <dsd@laptop.org> - 1:1.18.2-5
 - Remove Linux 2.4 support from insmod/modprobe/etc.
 - Fixes build failures on ARM, where such ancient syscalls are not present
