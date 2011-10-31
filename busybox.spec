@@ -1,28 +1,14 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.18.2
-Release: 6%{?dist}
+Version: 1.19.3
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
-Patch16: busybox-1.10.1-hwclock.patch
-Patch25: busybox-1.15.1-uname.patch
-# Upstream patches from http://busybox.net/downloads/fixes-1.18.2/
-Patch30: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-buildsys.patch
-Patch31: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-hush.patch
-Patch32: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-libbb.patch
-Patch33: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-modprobe-small.patch
-Patch34: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-modprobe.patch
-Patch35: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-ping.patch
-Patch36: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-tar.patch
-Patch37: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-udhcp.patch
-Patch38: http://busybox.net/downloads/fixes-1.18.2/busybox-1.18.2-wc.patch
-# Already-upstream fixes for compiling against Linux 3.0 headers
-Patch40: busybox-sysinfo-1.patch
-Patch41: busybox-sysinfo-2.patch
+Patch1: busybox-1.15.1-uname.patch
 
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
@@ -57,20 +43,7 @@ better suited to normal use.
 
 %prep
 %setup -q
-%patch16 -b .ia64 -p1
-%patch25 -b .uname -p1
-
-%patch30 -p1 -b .buildsys
-%patch31 -p1 -b .hush
-%patch32 -p1 -b .libbb
-%patch33 -p1 -b .modprobe-small
-%patch34 -p1 -b .modprobe
-%patch35 -p1 -b .ping
-%patch36 -p1 -b .tar
-%patch37 -p1 -b .udhcp
-%patch38 -p1 -b .wc
-%patch40 -p1 -b .sysinfo1
-%patch41 -p1 -b .sysinfo2
+%patch1 -b .uname -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -139,6 +112,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon Oct 31 2011 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.3-1
+- update to 1.19.3
+
 * Sat Aug 27 2011 Daniel Drake <dsd@laptop.org> - 1:1.18.2-6
 - Fix compilation against uClibc and Linux-3.0 headers
 
