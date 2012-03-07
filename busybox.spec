@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -21,8 +21,6 @@ BuildRequires: glibc-static
 # This package used to include a bundled copy of uClibc, but we now
 # use the system copy.
 BuildRequires: uClibc-static
-
-%define debug_package %{nil}
 
 %package petitboot
 Group: System Environment/Shells
@@ -68,7 +66,7 @@ else \
     cat .config && \
     make V=1 CC="gcc $RPM_OPT_FLAGS"; \
 fi
-cp busybox busybox.static
+cp busybox_unstripped busybox.static
 cp docs/busybox.1 docs/busybox.static.1
 
 # create busybox optimized for petitboot
@@ -84,7 +82,7 @@ if test "$arch"; then \
 else \
     make V=1 CC="%__cc $RPM_OPT_FLAGS"; \
 fi
-cp busybox busybox.petitboot
+cp busybox_unstripped busybox.petitboot
 cp docs/busybox.1 docs/busybox.petitboot.1
 
 %install
@@ -112,6 +110,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Wed Mar  7 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-2
+- Tweaked spec file to generate proper debuginfo package
+
 * Tue Feb 28 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-1
 - update to 1.19.4
 
