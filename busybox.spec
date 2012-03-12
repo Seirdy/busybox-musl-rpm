@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -60,7 +60,7 @@ if test "$arch"; then \
     yes "" | make oldconfig && \
     cat .config && \
     make V=1 \
-        EXTRA_CFLAGS="-isystem %{_includedir}/uClibc" \
+        EXTRA_CFLAGS="-g -isystem %{_includedir}/uClibc" \
         CFLAGS_busybox="-static -nostartfiles -L%{_libdir}/uClibc %{_libdir}/uClibc/crt1.o %{_libdir}/uClibc/crti.o %{_libdir}/uClibc/crtn.o"; \
 else \
     cat .config && \
@@ -75,9 +75,12 @@ make clean
 cp %{SOURCE2} .config
 # set all new options to defaults
 yes "" | make oldconfig
+# -g is needed for generation of debuginfo.
+# (Don't want to use full-blown $RPM_OPT_FLAGS for this,
+# it makes binary much bigger: -O2 instead of -Os, many other options)
 if test "$arch"; then \
     make V=1 \
-        EXTRA_CFLAGS="-isystem %{_includedir}/uClibc" \
+        EXTRA_CFLAGS="-g -isystem %{_includedir}/uClibc" \
         CFLAGS_busybox="-static -nostartfiles -L%{_libdir}/uClibc %{_libdir}/uClibc/crt1.o %{_libdir}/uClibc/crti.o %{_libdir}/uClibc/crtn.o"; \
 else \
     make V=1 CC="%__cc $RPM_OPT_FLAGS"; \
@@ -110,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon Mar 12 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-3
+- Tweaked spec file again to generate even more proper debuginfo package
+
 * Wed Mar  7 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-2
 - Tweaked spec file to generate proper debuginfo package
 
