@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -9,6 +9,7 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
 Patch1: busybox-1.15.1-uname.patch
+Patch2: busybox-1.19.4-ext2_fs_h.patch
 
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
@@ -20,7 +21,9 @@ BuildRequires: libsepol-static
 BuildRequires: glibc-static
 # This package used to include a bundled copy of uClibc, but we now
 # use the system copy.
+%ifnarch ppc64
 BuildRequires: uClibc-static
+%endif
 
 %package petitboot
 Group: System Environment/Shells
@@ -42,6 +45,7 @@ better suited to normal use.
 %prep
 %setup -q
 %patch1 -b .uname -p1
+%patch2 -b .ext2_fs_h -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -63,6 +67,16 @@ if test "$arch"; then \
         EXTRA_CFLAGS="-g -isystem %{_includedir}/uClibc" \
         CFLAGS_busybox="-static -nostartfiles -L%{_libdir}/uClibc %{_libdir}/uClibc/crt1.o %{_libdir}/uClibc/crti.o %{_libdir}/uClibc/crtn.o"; \
 else \
+    mv .config .config1 && \
+    grep -v \
+        -e ^CONFIG_FEATURE_HAVE_RPC \
+        -e ^CONFIG_FEATURE_MOUNT_NFS \
+        -e ^CONFIG_FEATURE_INETD_RPC \
+        .config1 >.config && \
+    echo "# CONFIG_FEATURE_HAVE_RPC is not set" >>.config && \
+    echo "# CONFIG_FEATURE_MOUNT_NFS is not set" >>.config && \
+    echo "# CONFIG_FEATURE_INETD_RPC is not set" >>.config && \
+    yes "" | make oldconfig && \
     cat .config && \
     make V=1 CC="gcc $RPM_OPT_FLAGS"; \
 fi
@@ -113,6 +127,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Fri Apr 13 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-4
+- Fixed breakage with newer kernel headers
+- Excluded Sun-RPC dependednt features not available in newer static glibc
+
 * Mon Mar 12 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-3
 - Tweaked spec file again to generate even more proper debuginfo package
 
