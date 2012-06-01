@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 4%{?dist}
+Release: 5%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -130,6 +130,9 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Apr 13 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-4
 - Fixed breakage with newer kernel headers
 - Excluded Sun-RPC dependednt features not available in newer static glibc
+
+* Fri Jun  1 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-5
+- Added bboconfig applet - useful for running testsuite
 
 * Mon Mar 12 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-3
 - Tweaked spec file again to generate even more proper debuginfo package
