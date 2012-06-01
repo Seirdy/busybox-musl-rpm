@@ -127,12 +127,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Fri Jun  1 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-5
+- Added bboconfig applet - useful for running testsuite
+
 * Fri Apr 13 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-4
 - Fixed breakage with newer kernel headers
 - Excluded Sun-RPC dependednt features not available in newer static glibc
-
-* Fri Jun  1 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-5
-- Added bboconfig applet - useful for running testsuite
 
 * Mon Mar 12 2012 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.19.4-3
 - Tweaked spec file again to generate even more proper debuginfo package
