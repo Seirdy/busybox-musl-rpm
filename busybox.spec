@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 7%{?dist}
+Release: 8%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -10,6 +10,7 @@ Source1: busybox-static.config
 Source2: busybox-petitboot.config
 Patch1: busybox-1.15.1-uname.patch
 Patch2: busybox-1.19.4-ext2_fs_h.patch
+Patch3: busybox-1.19-rlimit_fsize.patch
 
 Obsoletes: busybox-anaconda
 URL: http://www.busybox.net
@@ -21,7 +22,7 @@ BuildRequires: libsepol-static
 BuildRequires: glibc-static
 # This package used to include a bundled copy of uClibc, but we now
 # use the system copy.
-%ifnarch ppc64
+%ifnarch ppc %{power64}
 BuildRequires: uClibc-static
 %endif
 
@@ -46,6 +47,9 @@ better suited to normal use.
 %setup -q
 %patch1 -b .uname -p1
 %patch2 -b .ext2_fs_h -p1
+%ifarch ppc %{power64}
+%patch3 -b .rlimit_fsize -p1
+%endif
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -127,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Wed May 15 2013 Karsten Hopp <karsten@redhat.com> 1.19.4-8
+- include sys/resource.h for RLIMIT_FSIZE (rhbz #961542) on PPC*
+
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.19.4-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
