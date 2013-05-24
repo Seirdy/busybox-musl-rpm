@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 9%{?dist}
+Release: 10%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -22,7 +22,7 @@ BuildRequires: libsepol-static
 BuildRequires: glibc-static
 # This package used to include a bundled copy of uClibc, but we now
 # use the system copy.
-%ifnarch ppc %{power64}
+%ifnarch ppc %{power64} s390 s390x
 BuildRequires: uClibc-static
 %endif
 
@@ -47,7 +47,7 @@ better suited to normal use.
 %setup -q
 %patch1 -b .uname -p1
 %patch2 -b .ext2_fs_h -p1
-%ifarch ppc %{power64}
+%ifarch ppc %{power64} s390 s390x
 %patch3 -b .rlimit_fsize -p1
 %endif
 
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Fri May 24 2013 Dan Horák <dan[at]danny.cz> - 1.19.4-10
+- disable uClibs on s390(x)
+
 * Wed May 15 2013 Karsten Hopp <karsten@redhat.com> 1.19.4-9
 - disable uClibc on ppc, too
 
