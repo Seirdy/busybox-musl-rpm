@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 10%{?dist}
+Release: 11%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.19.4-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Fri May 24 2013 Dan Horák <dan[at]danny.cz> - 1.19.4-10
 - disable uClibs on s390(x)
 
