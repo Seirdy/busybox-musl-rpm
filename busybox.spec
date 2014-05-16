@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 11%{?dist}
+Release: 12%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -56,7 +56,7 @@ better suited to normal use.
 # We use uclibc instead of system glibc, uclibc is several times
 # smaller, this is important for static build.
 # uclibc can't be built on ppc64,s390,ia64, we set $arch to "" in this case
-arch=`uname -m | sed -e 's/i.86/i386/' -e 's/armv7l/arm/' -e 's/armv5tel/arm/' -e 's/ppc64//' -e 's/powerpc64//' -e 's/ppc//' -e 's/ia64//' -e 's/s390.*//'`
+arch=`uname -m | sed -e 's/i.86/i386/' -e 's/armv7l/arm/' -e 's/armv5tel/arm/' -e 's/ppc64le//' -e 's/ppc64//' -e 's/powerpc64//' -e 's/ppc//' -e 's/ia64//' -e 's/s390.*//'`
 cp %{SOURCE1} .config
 # set all new options to defaults
 yes "" | make oldconfig
@@ -131,6 +131,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Fri May 16 2014 Jaromir Capik <jcapik@redhat.com> - 1:1.19.4-12
+- Disabled uClibc on ppc64le
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.19.4-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
