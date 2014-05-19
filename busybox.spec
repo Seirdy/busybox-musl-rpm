@@ -1,10 +1,12 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 12%{?dist}
+Release: 13%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
+URL: http://www.busybox.net
+
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
@@ -12,9 +14,6 @@ Patch1: busybox-1.15.1-uname.patch
 Patch2: busybox-1.19.4-ext2_fs_h.patch
 Patch3: busybox-1.19-rlimit_fsize.patch
 
-Obsoletes: busybox-anaconda
-URL: http://www.busybox.net
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
 BuildRequires: libselinux-static
@@ -22,7 +21,7 @@ BuildRequires: libsepol-static
 BuildRequires: glibc-static
 # This package used to include a bundled copy of uClibc, but we now
 # use the system copy.
-%ifnarch ppc %{power64} s390 s390x
+%ifnarch ppc %{power64} s390 s390x aarch64
 BuildRequires: uClibc-static
 %endif
 
@@ -47,7 +46,7 @@ better suited to normal use.
 %setup -q
 %patch1 -b .uname -p1
 %patch2 -b .ext2_fs_h -p1
-%ifarch ppc %{power64} s390 s390x
+%ifarch ppc %{power64} s390 s390x aarch64
 %patch3 -b .rlimit_fsize -p1
 %endif
 
@@ -56,7 +55,8 @@ better suited to normal use.
 # We use uclibc instead of system glibc, uclibc is several times
 # smaller, this is important for static build.
 # uclibc can't be built on ppc64,s390,ia64, we set $arch to "" in this case
-arch=`uname -m | sed -e 's/i.86/i386/' -e 's/armv7l/arm/' -e 's/armv5tel/arm/' -e 's/ppc64le//' -e 's/ppc64//' -e 's/powerpc64//' -e 's/ppc//' -e 's/ia64//' -e 's/s390.*//'`
+arch=`uname -m | sed -e 's/i.86/i386/' -e 's/armv7l/arm/' -e 's/armv5tel/arm/' -e 's/aarch64//' -e 's/ppc64le//' -e 's/ppc64//' -e 's/powerpc64//' -e 's/ppc//' -e 's/ia64//' -e 's/s390.*//'`
+
 cp %{SOURCE1} .config
 # set all new options to defaults
 yes "" | make oldconfig
@@ -107,7 +107,6 @@ cp busybox_unstripped busybox.petitboot
 cp docs/busybox.1 docs/busybox.petitboot.1
 
 %install
-rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/sbin
 install -m 755 busybox.static $RPM_BUILD_ROOT/sbin/busybox
 install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
@@ -115,22 +114,21 @@ mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
 install -m 644 docs/busybox.static.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
 install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.petitboot.1
 
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root,-)
 %doc LICENSE README
 /sbin/busybox
 %{_mandir}/man1/busybox.1.gz
 
 %files petitboot
-%defattr(-,root,root,-)
 %doc LICENSE README
 /sbin/busybox.petitboot
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon May 19 2014 Peter Robinson <pbrobinson@fedoraproject.org> 1:1.19.4-13
+- uClibc not supported on aarch64
+
 * Fri May 16 2014 Jaromir Capik <jcapik@redhat.com> - 1:1.19.4-12
 - Disabled uClibc on ppc64le
 
@@ -138,7 +136,7 @@ rm -rf $RPM_BUILD_ROOT
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
 * Fri May 24 2013 Dan Horák <dan[at]danny.cz> - 1.19.4-10
-- disable uClibs on s390(x)
+- disable uClib on s390(x)
 
 * Wed May 15 2013 Karsten Hopp <karsten@redhat.com> 1.19.4-9
 - disable uClibc on ppc, too
