@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.19.4
-Release: 13%{?dist}
+Release: 14%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -126,6 +126,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.19.4-14
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Mon May 19 2014 Peter Robinson <pbrobinson@fedoraproject.org> 1:1.19.4-13
 - uClibc not supported on aarch64
 
