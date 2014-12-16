@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.19.4
-Release: 15%{?dist}
+Version: 1.22.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -11,7 +11,7 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
 Patch1: busybox-1.15.1-uname.patch
-Patch2: busybox-1.19.4-ext2_fs_h.patch
+#Patch2: busybox-1.19.4-ext2_fs_h.patch
 Patch3: busybox-1.19-rlimit_fsize.patch
 
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -45,7 +45,7 @@ better suited to normal use.
 %prep
 %setup -q
 %patch1 -b .uname -p1
-%patch2 -b .ext2_fs_h -p1
+#%patch2 -b .ext2_fs_h -p1
 %ifarch ppc %{power64} s390 s390x aarch64
 %patch3 -b .rlimit_fsize -p1
 %endif
@@ -126,6 +126,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Tue Dec 16 2014 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.22.1-1
+- Update to 1.22.1
+
 * Fri Aug 15 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.19.4-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
