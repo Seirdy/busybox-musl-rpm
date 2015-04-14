@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.22.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -24,6 +24,10 @@ BuildRequires: glibc-static
 BuildRequires: uClibc-static
 %endif
 
+# libbb/hash_md5_sha.c
+# https://bugzilla.redhat.com/1024549
+Provides: bundled(md5-drepper2)
+
 %package petitboot
 Group: System Environment/Shells
 Summary: Version of busybox configured for use with petitboot
@@ -43,6 +47,9 @@ better suited to normal use.
 
 %prep
 %setup -q
+# avoid compiling this bundled MD5 implementation that's unused according
+# to the file preamble
+rm libbb/hash_md5prime.c
 %patch1 -b .uname -p1
 #%patch2 -b .ext2_fs_h -p1
 
@@ -122,6 +129,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Tue Apr 14 2015 Michael Schwendt <mschwendt@fedoraproject.org> - 1:1.22.1-3
+- Provides: bundled(md5-drepper2)  (rhbz #1024549)
+
 * Thu Mar 05 2015 Dan Horák <dan[at]danny.cz> - 1:1.22.1-2
 - drop unneeded patch (#1182677)
 
