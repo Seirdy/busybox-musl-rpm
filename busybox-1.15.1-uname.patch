@@ -4,7 +4,7 @@ diff -urpN busybox-1.15.1/coreutils/uname.c busybox-1.15.1/coreutils/uname.c
 @@ -123,7 +123,7 @@ int uname_main(int argc UNUSED_PARAM, ch
  	strcpy(uname_info.processor, unknown_str);
  	strcpy(uname_info.platform, unknown_str);
- 	strcpy(uname_info.os, "GNU/Linux");
+ 	strcpy(uname_info.os, CONFIG_UNAME_OSNAME);
 -#if 0
 +#if 1
  	/* Fedora does something like this */

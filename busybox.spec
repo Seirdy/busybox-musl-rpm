@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.22.1
-Release: 6%{?dist}
+Version: 1.26.2
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -11,7 +11,6 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
 Patch1: busybox-1.15.1-uname.patch
-#Patch2: busybox-1.19.4-ext2_fs_h.patch
 
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
@@ -51,7 +50,6 @@ better suited to normal use.
 # to the file preamble
 rm libbb/hash_md5prime.c
 %patch1 -b .uname -p1
-#%patch2 -b .ext2_fs_h -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -100,10 +98,12 @@ yes "" | make oldconfig
 # (Don't want to use full-blown $RPM_OPT_FLAGS for this,
 # it makes binary much bigger: -O2 instead of -Os, many other options)
 if test "$arch"; then \
+    cat .config && \
     make V=1 \
         EXTRA_CFLAGS="-g -isystem %{_includedir}/uClibc" \
         CFLAGS_busybox="-static -nostartfiles -L%{_libdir}/uClibc %{_libdir}/uClibc/crt1.o %{_libdir}/uClibc/crti.o %{_libdir}/uClibc/crtn.o"; \
 else \
+    cat .config && \
     make V=1 CC="%__cc $RPM_OPT_FLAGS"; \
 fi
 cp busybox_unstripped busybox.petitboot
@@ -129,6 +129,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Thu Mar 30 2017 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.26.2-1
+- Update to 1.26.2
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.22.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
