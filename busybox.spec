@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.26.2
-Release: 4%{?dist}
+Version: 1.28.2
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 Group: System Environment/Shells
@@ -10,7 +10,6 @@ URL: http://www.busybox.net
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
-Patch1: busybox-1.15.1-uname.patch
 
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
@@ -46,10 +45,6 @@ better suited to normal use.
 
 %prep
 %setup -q
-# avoid compiling this bundled MD5 implementation that's unused according
-# to the file preamble
-rm libbb/hash_md5prime.c
-%patch1 -b .uname -p1
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -129,6 +124,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon Mar 26 2018 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.28.2-1
+- Update to 1.28.2
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.26.2-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
