@@ -1,6 +1,6 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.28.2
+Version: 1.28.3
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
@@ -124,6 +124,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Thu Apr 05 2018 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.28.3-1
+- Update to 1.28.3
+
 * Mon Mar 26 2018 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.28.2-1
 - Update to 1.28.2
 
