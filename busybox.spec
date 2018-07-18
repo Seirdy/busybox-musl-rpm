@@ -11,6 +11,7 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
 
+BuildRequires:  gcc
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
 BuildRequires: libselinux-static
