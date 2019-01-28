@@ -4,7 +4,6 @@ Version: 1.28.3
 Release: 2%{?dist}
 Epoch: 1
 License: GPLv2
-Group: System Environment/Shells
 URL: http://www.busybox.net
 
 Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
@@ -28,7 +27,6 @@ BuildRequires: uClibc-static
 Provides: bundled(md5-drepper2)
 
 %package petitboot
-Group: System Environment/Shells
 Summary: Version of busybox configured for use with petitboot
 
 %description
