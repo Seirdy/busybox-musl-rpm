@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.28.3
-Release: 3%{?dist}
+Version: 1.30.1
+Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
 URL: http://www.busybox.net
@@ -10,7 +10,7 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
 
-BuildRequires:  gcc
+BuildRequires: gcc
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
 BuildRequires: libselinux-static
@@ -123,6 +123,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon May 13 2019 Denys Vlasenko <dvlasenk@redhat.com> - 1:1.30.1-1
+- Update to 1.30.1
+
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.28.3-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
