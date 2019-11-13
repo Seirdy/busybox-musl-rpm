@@ -10,6 +10,8 @@ Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
 
+Patch0:	busybox-1.31.1-stime-fix.patch
+
 BuildRequires: gcc
 BuildRequires: libselinux-devel >= 1.27.7-2
 BuildRequires: libsepol-devel
@@ -44,6 +46,7 @@ better suited to normal use.
 
 %prep
 %setup -q
+%patch0 -p1 -b .stime
 
 %build
 # create static busybox - the executable is kept as busybox-static
