@@ -23,6 +23,7 @@ BuildRequires: glibc-static
 %ifnarch ppc %{power64} s390 s390x aarch64
 BuildRequires: uClibc-static
 %endif
+BuildRequires: make
 
 # libbb/hash_md5_sha.c
 # https://bugzilla.redhat.com/1024549
