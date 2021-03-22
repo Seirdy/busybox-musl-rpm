@@ -1,7 +1,7 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.33.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2
 URL: http://www.busybox.net
@@ -11,6 +11,7 @@ Source1: busybox-static.config
 Source2: busybox-petitboot.config
 
 Patch0:	busybox-1.31.1-stime-fix.patch
+Patch1: busybox-1.33.0-CVE-2021-28831.patch
 
 BuildRequires: gcc
 BuildRequires: libselinux-devel >= 1.27.7-2
@@ -48,6 +49,7 @@ better suited to normal use.
 %prep
 %setup -q
 %patch0 -p1 -b .stime
+%patch1 -p1 -b .CVE-2021-28831
 
 %build
 # create static busybox - the executable is kept as busybox-static
@@ -127,6 +129,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Mon Mar 22 2021 Tom Callaway <spot@fedoraproject.org> - 1:1.33.0-3
+- apply upstream fix for CVE-2021-28831
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1:1.33.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
