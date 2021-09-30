@@ -1,6 +1,6 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.34.0
+Version: 1.34.1
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
@@ -127,6 +127,9 @@ install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Thu Sep 30 2021 Tom Callaway <spot@fedoraproject.org> - 1:1.34.1-1
+- update to 1.34.1
+
 * Thu Aug 19 2021 Tom Callaway <spot@fedoraproject.org> - 1:1.34.0-1
 - update to 1.34.0
 
