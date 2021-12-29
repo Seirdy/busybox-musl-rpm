@@ -1,6 +1,6 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
-Version: 1.34.1
+Version: 1.35.0
 Release: 1%{?dist}
 Epoch: 1
 License: GPLv2
@@ -108,25 +108,29 @@ cp busybox_unstripped busybox.petitboot
 cp docs/busybox.1 docs/busybox.petitboot.1
 
 %install
-mkdir -p $RPM_BUILD_ROOT/sbin
-install -m 755 busybox.static $RPM_BUILD_ROOT/sbin/busybox
-install -m 755 busybox.petitboot $RPM_BUILD_ROOT/sbin/busybox.petitboot
-mkdir -p $RPM_BUILD_ROOT/%{_mandir}/man1
-install -m 644 docs/busybox.static.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.1
-install -m 644 docs/busybox.petitboot.1 $RPM_BUILD_ROOT/%{_mandir}/man1/busybox.petitboot.1
+mkdir -p %{buildroot}%{_sbindir}
+install -m 755 busybox.static %{buildroot}%{_sbindir}/busybox
+install -m 755 busybox.petitboot %{buildroot}%{_sbindir}/busybox.petitboot
+mkdir -p %{buildroot}%{_mandir}/man1
+install -m 644 docs/busybox.static.1 %{buildroot}%{_mandir}/man1/busybox.1
+install -m 644 docs/busybox.petitboot.1 %{buildroot}%{_mandir}/man1/busybox.petitboot.1
 
 
 %files
 %doc LICENSE README
-/sbin/busybox
+%{_sbindir}/busybox
 %{_mandir}/man1/busybox.1.gz
 
 %files petitboot
 %doc LICENSE README
-/sbin/busybox.petitboot
+%{_sbindir}/busybox.petitboot
 %{_mandir}/man1/busybox.petitboot.1.gz
 
 %changelog
+* Wed Dec 29 2021 Tom Callaway <spot@fedoraproject.org> - 1:1.35.0-1
+- update to 1.35.0
+- use modern macros and install into %%{_sbindir}
+
 * Thu Sep 30 2021 Tom Callaway <spot@fedoraproject.org> - 1:1.34.1-1
 - update to 1.34.1
 
