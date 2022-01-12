@@ -1,12 +1,12 @@
 Summary: Statically linked binary providing simplified versions of system commands
 Name: busybox
 Version: 1.35.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 Epoch: 1
 License: GPLv2
 URL: http://www.busybox.net
 
-Source: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
+Source0: http://www.busybox.net/downloads/%{name}-%{version}.tar.bz2
 Source1: busybox-static.config
 Source2: busybox-petitboot.config
 
